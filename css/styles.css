@@ -1,0 +1,753 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/diagramm');
+
+body {
+    background-image: linear-gradient(to right bottom, #600000, #4c040c, #36080f, #21070c, #000000);
+    color: #ffffff;
+    font-family: 'Work Sans';
+}
+
+.imgLogo {
+    max-height: 150px;
+    max-width: 150px;
+    display: block;
+    -webkit-filter: drop-shadow(5px 5px 5px #222 );
+    filter: drop-shadow(2px 2px 15px rgba(241, 241, 241, 0.411));
+    padding-bottom: 18px;
+}
+
+.imgLogo:hover {
+    cursor: pointer;
+}
+
+.content {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+}
+
+.navbar-collapse {
+    color: red;
+}
+
+.navbarAfter {
+    display: none;
+}
+
+.navbarBefore {
+    display: block;
+    padding: 40px 100px 40px 100px;
+    font-size: larger;
+}
+
+
+.nav-link {
+    margin-left: 10px;
+    border-radius: 12px;
+    font-weight: 500;
+
+    transition: 500ms;
+}
+
+.navbar-brand, .nav-link {
+    color: whitesmoke;
+}
+
+.unirme {
+    background-color: rgba(255, 255, 255, 0.226);
+
+    transition: 500ms;
+}
+
+.unirme:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.438);
+    text-shadow: none;
+    transition: 500ms;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+    text-shadow: 2px 2px 18px rgba(241, 241, 241, 0.925);
+
+    transition: 200ms;
+}
+
+.nav-link:focus {
+    color: #ffffff;
+}
+
+
+
+.divSlogan {
+    font-family: 'Diagramm', sans-serif;
+    margin: 0;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.slogan {
+    text-align: center;
+    width: 70vw;
+    font-size: 4em;
+}
+
+.titDestacado {
+    color: rgb(214, 0, 0);
+}
+
+.fraseExotica {
+    margin-top: 25px;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: #0000003a;
+    border-radius: 20px;
+    width: max-content;
+    padding: 6px 18px 6px 18px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.divDatos {
+    margin-top: 60px;
+    height: 15vw;
+    background-color: rgba(158, 0, 0, 0.479);
+    width: 100%;
+    border-radius: 24px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.dato1, .dato2, .dato3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.titDato {
+    font-size: 3.5em;
+    font-weight: 600;
+    text-shadow: 2px 2px 15px rgba(241, 241, 241, 0.52);
+}
+
+.txtDato {
+    font-size: 1.5em;
+}
+
+.divCursosDisponibles {
+    margin-top: 20px;
+}
+
+.svgFlecha {
+    margin: auto;
+    display: block;
+}
+
+.carta-curso {
+    background-color: rgb(51, 51, 51);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    width: 100%;
+}
+
+.card {
+    border-radius: 24px;
+    background-color: rgba(0, 0, 0, 0.425);
+    backdrop-filter: blur(12px) saturate(157%);
+    -webkit-backdrop-filter: blur(12px) saturate(157%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    transition: 200ms;
+}
+
+.card:hover {
+    box-shadow: 0px 0px 20px 1px #ffbb763f;
+    outline: 1px solid rgba(139, 139, 139, 0.205);
+
+    transition: 400ms;
+}
+
+.card-img-top {
+    border-radius: 32px;
+    padding: 24px;
+}
+
+.card-body {
+    color: white;
+    background: none;
+    padding: 0 24px 24px 24px;
+}
+
+.card-text {
+    color: #dadada;
+}
+
+.conocerMas {
+    text-decoration: none;
+    color: white;
+    padding: 12px;
+    border-radius: 16px;
+
+    background-color: rgba(0, 0, 0, 0.425);
+    backdrop-filter: blur(12px) saturate(157%);
+    -webkit-backdrop-filter: blur(12px) saturate(157%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    transition: 500ms;
+}
+
+.conocerMas:hover {
+    background-color: #5f5f5f73;
+
+    transition: 500ms;
+}
+
+.flechaCursos {
+    text-decoration: none;
+    color: white;
+    width: 100px;
+    height: 100px;
+
+    transition: 500ms;
+}
+
+.flechaCursos:hover {
+    color: #b6b6b6;
+
+    transition: 500ms;
+}
+
+.nomInstructor {
+    color: white;
+    font-style: italic;
+}
+
+
+.modal-content {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 0px 520px 1px #ffbb763f;
+}
+
+.mc-cerrarsesion {
+    background-color: rgba(0, 0, 0, 0.800);
+}
+
+.mc-tarjeta {
+    background-color: #0E0305 ;
+}
+
+.btn-cancelar {
+    background: none;
+    border: none;
+
+    transition: 500ms;
+}
+
+.btn-cancelar:hover {
+    background: none;
+    text-shadow: 2px 2px 18px rgba(241, 241, 241, 0.925);
+
+    transition: 500ms;
+}
+
+.btn-cerrarSesion {
+    font-weight: 500;
+}
+
+.socialMedia-icons {
+    fill: white;
+}
+
+.socialMedia-icons:hover {
+    cursor: pointer;
+}
+
+.imgLogoFooter {
+    max-height: 240px;
+    max-width: 240px;
+    margin: 10px 0 10px 0;
+}
+
+.footer {
+    background-color: rgba(0, 0, 0, 0.425);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 100px;
+}
+
+.svgEstrella {
+    margin-right: 8px;
+}
+
+.btnUnirme {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.342);
+    border-radius: 12px;
+}
+
+.btnUnirme:hover {
+    background-color: #b30015;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btnUnirme:active {
+    background-color: rgb(117, 0, 0) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.descPlanes {
+    color: #919191;
+    margin-bottom: 60px;
+}
+
+.tit1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 3em;
+}
+
+.planes {
+    background-color: rgba(0, 0, 0, 0.342);
+    padding: 24px 32px 24px 32px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.titPlanes {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+.precioPlanes {
+    font-size: 3.4em;
+}
+
+.ventajasPlanes {
+    list-style: none;
+    margin-left: 4px;
+    font-size: 1.3em;
+}
+
+.ulVentajasPlanes {
+    margin-top: 20px;
+    padding-left: 2px;
+}
+
+.btnMejorar {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #b30015;
+    border-radius: 12px;
+}
+
+.btnMejorar:hover {
+    background-color: #6d000d;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btnMejorar:active {
+    background-color: #6d000d !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.btn-outline-primary-mejorar {
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.btn-outline-primary-mejorar:hover {
+    cursor: default;
+}
+
+.divCursoIn {
+    width: 100%;
+}
+
+.divLeftCursoIn {
+    width: 70%;
+}
+
+.divMidCursoIn {
+    margin: 0 40px 0 40px;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.titCursoIn {
+    font-family: 'Diagramm', sans-serif;
+    margin-top: 20px;
+    font-size: 3em;
+    font-weight: 600;
+}
+
+.instructorCursoIn {
+    font-size: 1.4em;
+    font-weight: 400;
+    margin: 0;
+}
+
+.descCursoIn {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.fechaCursoIn {
+    margin: 8px 0 0 0;
+    font-style: italic;
+    color: #9c9c9c;
+}
+
+.capitulos {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 16px;
+
+    margin-bottom: 20px;
+}
+
+.espaciadorCaps {
+    margin: 0 20px 0 20px;
+    width: 1px;
+    background-color: rgb(255, 255, 255);
+}
+
+.espaciado {
+    margin: 10px 0 0 0;
+}
+
+.capitulos {
+    background-color: #ff00000e;
+    transition: 400ms;
+}
+
+.capitulos:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 20px 1px #ffbb763f;
+
+    transition: 400ms;
+}
+
+.numCapitulo {
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.nomCapitulo {
+    font-size: 1.4em;
+    font-weight: 450;
+}
+
+.imgCursoContainer {
+    position: relative;
+    display: inline-block;
+    background-color: #202020;
+    border-radius: 24px;
+}
+
+.imgCursoIn {
+    display: block;
+    width: 100%;
+    border-radius: 24px;
+
+    opacity: 0.3;
+}
+
+.btnPlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 2em;
+    opacity: 0.8;
+
+    transition: 400ms;
+}
+
+.btnPlay:hover {
+    opacity: 1;
+    transition: 400ms;
+}
+
+.negrita {
+    font-weight: 500;
+}
+
+.rojo {
+    color: #ff2e2e;
+}
+
+.btn-outline-primary-unirme {
+    border: 1px solid #ffffff85 !important;
+    color: #ffffff !important;
+    border-radius: 12px;
+}
+
+.capCursoIn {
+    padding-left: 0px;
+}
+
+.espaciadorGeneral {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    height: 1px;
+}
+
+#btnCapitulos {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.nomCapitulo, .numCapitulo {
+    text-decoration: none !important;
+    color: #ffffff !important;
+}
+
+.btnMarcarVisto {
+    padding: 0 12px 0 12px;
+    border-radius: 16px;
+    height: 42px;
+}
+
+.beforeTit {
+    margin: 4px 0 20px 0;
+}
+
+
+
+
+.btnMarcarVisto.visto span {
+    text-decoration: line-through;
+}
+
+.btnMarcarVisto.visto svg {
+    opacity: 0.6;
+}
+
+.btnMarcarVisto:hover svg {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+}
+
+.btnMarcarVisto {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #41080E;
+    border-radius: 12px;
+}
+
+.btnMarcarVisto:hover {
+    background-color: #b30015;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btnMarcarVisto:active {
+    background-color: rgb(117, 0, 0) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+#misCursos {
+    background-color: rgba(0, 0, 0, 0.342);
+    padding: 24px 32px 24px 32px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cardMisCursos {
+    padding: 32px;
+    color: white;
+    
+    border-radius: 24px;
+    background-color: rgba(0, 0, 0, 0.425);
+    backdrop-filter: blur(12px) saturate(157%);
+    -webkit-backdrop-filter: blur(12px) saturate(157%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-text {
+    margin: 0;
+}
+
+.card-instructor {
+    margin-top: 8px;
+    color: #ffffff !important;
+}
+
+.espaciadorGeneralMisCursos {
+    margin: 8px 0 8px 0;
+}
+
+.btnContinuar {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.342);
+    border-radius: 8px;
+    margin-top: 12px;
+}
+
+.btnContinuar:hover {
+    background-color: #b30015;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btnContinuar:active {
+    background-color: rgb(117, 0, 0) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.col-md-4 {
+    margin: 24px 0 24px 0;
+}
+
+#misCursos {
+    margin-top: 24px;
+}
+
+.progress {
+    margin: 18px 0 4px 0 !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+.progress-bar {
+    background-color: #D30000;
+    border-radius: 12px;
+}
+
+.text-muted {
+    color: #ffffff !important;
+}
+
+.card-desc {
+    margin-top: 14px;
+}
+
+.espaciadorGeneralCatalogo {
+    margin: 16px 0 16px 0;
+}
+
+
+/* Profile Page Styles */
+.form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+}
+
+.form-floating > label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.curso-historial h5 {
+    color: white;
+    font-size: 1.2em;
+}
+
+.curso-historial .badge {
+    padding: 8px 16px;
+    font-size: 0.9em;
+    border-radius: 12px;
+}
+
+.badge.bg-success {
+    background-color: #198754 !important;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.curso-historial {
+    padding: 16px;
+}
+
+.form-control::selection {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white;
+}
+
+.form-control::-moz-selection {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white;
+}
+
+.form-floating>.form-control-plaintext~label::after, .form-floating>.form-control:focus~label::after, .form-floating>.form-control:not(:placeholder-shown)~label::after, .form-floating>.form-select~label::after {
+    background-color: transparent;
+}
+
+/* Toast Notification Styles */
+.toast {
+    background-color: rgb(0, 0, 0) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0px 0px 30px 1px #ffffff21 !important;
+    color: white !important;
+}
+
+.toast-header {
+    background-color: rgba(0, 0, 0, 0.900) !important;
+    color: white !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.toast-body {
+    color: #fff !important;
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.text-muted.datos {
+    color: #ffffff9d !important;
+}
+
+.negrita.lbl {
+    color: #ffffff !important;
+}
+
+.modal-content.planes {
+    background-color: #140105 !important;
+}
+
+.modal-tarjetacredito {
+    padding-bottom: 0 !important;
+}
+
+.form-check-input {
+    background: none;
+    border: none;
+}
+

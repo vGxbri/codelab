@@ -1,0 +1,83 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/diagramm');
+
+body {
+    background-image: linear-gradient(to left top, #000000, #0e0205, #180508, #1f080b, #250a0c, #2a0b0c, #2f0b0b, #340a0a, #390808, #3d0506, #420303, #460000);    height: 100vh;
+    color: #ffffff;
+    font-family: 'Work Sans';
+}
+
+#imgLogin {
+    height: 100vh;
+    width: 50vw;
+    opacity: 0.8;
+}
+
+#logo-full {
+    height: 120px;
+    position: absolute;
+}
+
+.divLogo {
+    position: absolute;
+    height: 100vh;
+    width: 50vw;
+}
+
+.titIniciar {
+    font-family: 'Diagramm';
+    font-weight: 800;
+    font-size: 4em;
+}
+
+.btn-primary {
+    background-color: rgb(190, 0, 0);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: rgb(160, 0, 0);
+}
+
+#btnLogin:active, #btnRegistro:active {
+    background-color: rgb(117, 0, 0);
+}
+
+.registrate {
+    color: rgb(255, 0, 0);
+}
+
+.registrate:hover {
+    color: rgb(167, 0, 0);
+}
+
+.separador {
+    width: 100%;
+    background-color: white;
+    height: 1px;
+}
+
+.volver {
+    background-color: rgba(255, 255, 255, 0.226);
+    width: fit-content;
+    padding: 8px 12px 4px 8px;
+    margin-bottom: 20px;
+    border-radius: 24px;
+
+    transition: 500ms;
+}
+
+.volver:hover {
+    background-color: rgba(255, 255, 255, 0.466);
+    cursor: pointer;
+    transition: 500ms;
+}
+
+.form-floating {
+    color: var(--bs-gray-600);
+}
+
+.form-check-input {
+    background: none;
+    border: none;
+}

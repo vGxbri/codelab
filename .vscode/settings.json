@@ -1,0 +1,4 @@
+{
+    "dotnet.preferCSharpExtension": true,
+    "CodeGPT.apiKey": "CodeGPT Plus Beta"
+}
