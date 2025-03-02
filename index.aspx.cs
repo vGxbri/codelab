@@ -589,6 +589,31 @@ namespace PaginaCursos
                     }
                 }
             }
+            else if (e.CommandName == "ShowDeleteModal")
+            {
+                // Store the chapter ID in the hidden field
+                int chapterId = Convert.ToInt32(e.CommandArgument);
+                hfDeleteChapterId.Value = chapterId.ToString();
+                
+                // Get the chapter number from the database
+                int chapterNumber = 0;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT numero_capitulo FROM capitulos WHERE id = @chapterId";
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@chapterId", chapterId);
+                    chapterNumber = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                
+                // Update the modal message with the chapter number and show the modal
+                ScriptManager.RegisterStartupScript(this, GetType(), "ShowDeleteModal", $@"
+                    setTimeout(function() {{
+                        document.getElementById('deleteChapterMessage').innerText = '¿Estás seguro de que quieres eliminar el capítulo {chapterNumber}?';
+                        var deleteModal = new bootstrap.Modal(document.getElementById('modalDeleteChapter'));
+                        deleteModal.show();
+                    }}, 100);", true);
+            }
         }
 
         protected void btnContinuar_Click(object sender, EventArgs e)
@@ -1118,6 +1143,93 @@ namespace PaginaCursos
                         "$('#modalAddChapter').modal('hide');", true);
 
                     cargarCurso(cursoId);
+                }
+            }
+        }
+
+        protected bool IsCourseInstructor(int cursoId)
+        {
+            if (Session["Usuario"] == null)
+                return false;
+
+            string email = Session["Usuario"].ToString();
+            
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = @"SELECT COUNT(*) 
+                                FROM cursos c 
+                                JOIN instructores i ON c.instructor_id = i.id 
+                                JOIN estudiantes e ON i.estudiante_id = e.id 
+                                WHERE c.id = @cursoId 
+                                AND e.correo_electronico = @email";
+
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@cursoId", cursoId);
+                cmd.Parameters.AddWithValue("@email", email);
+
+                return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+            }
+        }
+
+        protected void btnConfirmDeleteChapter_Click(object sender, EventArgs e)
+        {
+            // Get the chapter ID from the hidden field
+            int chapterId = Convert.ToInt32(hfDeleteChapterId.Value);
+            
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                
+                // First, get the curso_id and numero_capitulo of the chapter to be deleted
+                string getChapterInfoQuery = "SELECT curso_id, numero_capitulo FROM capitulos WHERE id = @chapterId";
+                MySqlCommand getChapterInfoCmd = new MySqlCommand(getChapterInfoQuery, connection);
+                getChapterInfoCmd.Parameters.AddWithValue("@chapterId", chapterId);
+                
+                int deletedChapterNumber = 0;
+                long cursoId = 0;
+                
+                using (MySqlDataReader reader = getChapterInfoCmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        cursoId = Convert.ToInt64(reader["curso_id"]);
+                        deletedChapterNumber = Convert.ToInt32(reader["numero_capitulo"]);
+                    }
+                }
+                
+                if (cursoId > 0)
+                {
+                    // Delete the chapter
+                    string deleteQuery = "DELETE FROM capitulos WHERE id = @chapterId";
+                    MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, connection);
+                    deleteCmd.Parameters.AddWithValue("@chapterId", chapterId);
+                    deleteCmd.ExecuteNonQuery();
+                    
+                    // Update the chapter numbers for all chapters with higher numbers
+                    string updateNumbersQuery = "UPDATE capitulos SET numero_capitulo = numero_capitulo - 1 " +
+                                                "WHERE curso_id = @cursoId AND numero_capitulo > @deletedChapterNumber";
+                    MySqlCommand updateNumbersCmd = new MySqlCommand(updateNumbersQuery, connection);
+                    updateNumbersCmd.Parameters.AddWithValue("@cursoId", cursoId);
+                    updateNumbersCmd.Parameters.AddWithValue("@deletedChapterNumber", deletedChapterNumber);
+                    updateNumbersCmd.ExecuteNonQuery();
+                    
+                    // Also update any viewed chapters records that might reference higher chapter numbers
+                    string updateViewedQuery = "UPDATE capitulos_vistos cv " +
+                                            "JOIN capitulos c ON cv.capitulo_id = c.id " +
+                                            "SET c.numero_capitulo = c.numero_capitulo - 1 " +
+                                            "WHERE c.curso_id = @cursoId AND c.numero_capitulo > @deletedChapterNumber";
+                    MySqlCommand updateViewedCmd = new MySqlCommand(updateViewedQuery, connection);
+                    updateViewedCmd.Parameters.AddWithValue("@cursoId", cursoId);
+                    updateViewedCmd.Parameters.AddWithValue("@deletedChapterNumber", deletedChapterNumber);
+                    updateViewedCmd.ExecuteNonQuery();
+                    
+                    // Reload the course to update the UI
+                    cargarCurso(cursoId);
+                    
+                    // Hide the modal
+                    ScriptManager.RegisterStartupScript(this, GetType(), "HideDeleteModal", 
+                        "$('#modalDeleteChapter').modal('hide');", true);
                 }
             }
         }

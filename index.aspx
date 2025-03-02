@@ -548,13 +548,22 @@
                             <asp:HiddenField ID="hfCursoId" runat="server" />
                             <asp:Repeater ID="rptCapitulos" runat="server" OnItemCommand="rptCapitulos_ItemCommand">
                                 <ItemTemplate>
-                                    <div>
-                                        <asp:LinkButton ID="btnCapitulos" CssClass="capitulos d-flex" runat="server" CommandName="SelectCapitulo" CommandArgument='<%# Eval("numero_capitulo") + "|" + Eval("titulo") %>' Font-Underline="false">
+                                    <div class="d-flex align-items-center">
+                                        <asp:LinkButton ID="btnCapitulos" CssClass="capitulos d-flex flex-grow-1" runat="server" CommandName="SelectCapitulo" CommandArgument='<%# Eval("numero_capitulo") + "|" + Eval("titulo") %>' Font-Underline="false">
                                             <asp:HiddenField ID="hfCapituloId" runat="server" Value='<%# Eval("id") %>' />
                                             <h2 class="numCapitulo"><%# Eval("numero_capitulo") %></h2>
                                             <div class="espaciadorCaps"></div>
                                             <h3 class="nomCapitulo"><%# Eval("titulo") %></h3>
                                         </asp:LinkButton>
+                                        <asp:LinkButton ID="btnDeleteChapter" runat="server" 
+                                                    CssClass="btn btn-primary btnContinuar btnEliminarCap" 
+                                                    CommandName="ShowDeleteModal" 
+                                                    CommandArgument='<%# Eval("id") %>'
+                                                    Visible='<%# IsCourseInstructor(Convert.ToInt32(Eval("curso_id"))) %>'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </asp:LinkButton>
                                     </div>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -841,6 +850,25 @@
                         CssClass="btn btn-primary btnMejorar" 
                         OnClick="btnSaveNewChapter_Click"
                         ValidationGroup="AddChapter" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar Capítulo -->
+    <div class="modal fade" id="modalDeleteChapter" tabindex="-1" aria-labelledby="modalDeleteChapterLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mc-cerrarsesion">
+                <div class="modal-body">
+                    <span id="deleteChapterMessage">¿Estás seguro de que quieres eliminar este capítulo?</span>
+                    <asp:HiddenField ID="hfDeleteChapterId" runat="server" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnConfirmDeleteChapter" runat="server" 
+                                CssClass="btn btn-danger btn-cerrarSesion" 
+                                Text="Eliminar" 
+                                OnClick="btnConfirmDeleteChapter_Click" />
                 </div>
             </div>
         </div>
