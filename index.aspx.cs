@@ -312,10 +312,14 @@ namespace PaginaCursos
                     getIdCommand.Parameters.AddWithValue("@correo_electronico", email);
                     long estudianteId = Convert.ToInt64(getIdCommand.ExecuteScalar());
 
-                    // Update subscription to premium
-                    string updateQuery = "UPDATE suscripciones SET estado = 'activa' WHERE estudiante_id = @estudiante_id AND estado = 'inactiva'";
+                    // Calculate new end date (30 days from now)
+                    DateTime fechaFin = DateTime.Now.AddDays(30);
+
+                    // Update subscription to premium and set end date
+                    string updateQuery = "UPDATE suscripciones SET estado = 'activa', fecha_fin = @fecha_fin WHERE estudiante_id = @estudiante_id AND estado = 'inactiva'";
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@estudiante_id", estudianteId);
+                    updateCommand.Parameters.AddWithValue("@fecha_fin", fechaFin);
                     updateCommand.ExecuteNonQuery();
 
                     // Update buttons

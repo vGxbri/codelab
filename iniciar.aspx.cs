@@ -82,7 +82,7 @@ namespace PaginaCursos
                     }
                 }
             }
-    }
+        }
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
@@ -108,6 +108,9 @@ namespace PaginaCursos
 
                     if (storedHash != null && BCrypt.Net.BCrypt.Verify(password, storedHash))
                     {
+                        // Verificar y actualizar el estado de la suscripción
+                        VerificarFechaSuscripcion(email, connection);
+                        
                         Session["Usuario"] = email;
                         Response.Redirect("index.aspx");
                     }
@@ -137,6 +140,43 @@ namespace PaginaCursos
         protected void ValidateTerms(object source, ServerValidateEventArgs args)
         {
             args.IsValid = chkTerminos.Checked;
+        }
+
+        private void VerificarFechaSuscripcion(string email, MySqlConnection connection)
+        {
+            // Obtener el ID del estudiante
+            string getIdQuery = "SELECT id FROM estudiantes WHERE correo_electronico = @correo_electronico";
+            MySqlCommand getIdCommand = new MySqlCommand(getIdQuery, connection);
+            getIdCommand.Parameters.AddWithValue("@correo_electronico", email);
+            long estudianteId = Convert.ToInt64(getIdCommand.ExecuteScalar());
+
+            // Verificar si la suscripción está activa y si la fecha de fin ha pasado
+            string checkSuscripcionQuery = @"SELECT id, fecha_fin FROM suscripciones 
+                                            WHERE estudiante_id = @estudiante_id 
+                                            AND estado = 'activa'";
+            MySqlCommand checkSuscripcionCommand = new MySqlCommand(checkSuscripcionQuery, connection);
+            checkSuscripcionCommand.Parameters.AddWithValue("@estudiante_id", estudianteId);
+            
+            using (MySqlDataReader reader = checkSuscripcionCommand.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    long suscripcionId = Convert.ToInt64(reader["id"]);
+                    DateTime fechaFin = Convert.ToDateTime(reader["fecha_fin"]);
+                    
+                    // Si la fecha de fin ya pasó, cerrar el reader y actualizar el estado
+                    if (fechaFin < DateTime.Now)
+                    {
+                        reader.Close();
+                        
+                        // Actualizar el estado de la suscripción a inactiva
+                        string updateQuery = "UPDATE suscripciones SET estado = 'inactiva' WHERE id = @suscripcion_id";
+                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        updateCommand.Parameters.AddWithValue("@suscripcion_id", suscripcionId);
+                        updateCommand.ExecuteNonQuery();
+                    }
+                }
+            }
         }
     }
 }
