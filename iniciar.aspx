@@ -135,6 +135,7 @@
     </form>
 
     <script type="text/javascript">
+        // Función básica para mostrar/dejar de mostrar la contraseña
         function togglePassword(controlId) {
             var x = document.getElementById(controlId);
             if (x.type === "password") {

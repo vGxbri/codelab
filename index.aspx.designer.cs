@@ -150,13 +150,13 @@ namespace PaginaCursos
         protected global::System.Web.UI.WebControls.Label labelDebug;
 
         /// <summary>
-        /// rptCursos3 control.
+        /// rptCursos6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCursos3;
+        protected global::System.Web.UI.WebControls.Repeater rptCursos6;
 
         /// <summary>
         /// btnConocerMas control.
@@ -663,13 +663,13 @@ namespace PaginaCursos
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvCapitulo3;
 
         /// <summary>
-        /// btnGuardarCurso control.
+        /// btnCrearCursoModal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardarCurso;
+        protected global::System.Web.UI.WebControls.Button btnCrearCursoModal;
 
         /// <summary>
         /// txtNumeroTarjeta control.
@@ -798,13 +798,13 @@ namespace PaginaCursos
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvNewChapterTitle;
 
         /// <summary>
-        /// btnSaveNewChapter control.
+        /// btnGuardarNuevoCap control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveNewChapter;
+        protected global::System.Web.UI.WebControls.Button btnGuardarNuevoCap;
 
         /// <summary>
         /// hfDeleteChapterId control.
@@ -816,21 +816,12 @@ namespace PaginaCursos
         protected global::System.Web.UI.WebControls.HiddenField hfDeleteChapterId;
 
         /// <summary>
-        /// dpHistorialCursos control.
+        /// btnConfirmarEliminarCap control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataPager dpHistorialCursos;
-
-        /// <summary>
-        /// lvHistorialCursos control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView lvHistorialCursos;
+        protected global::System.Web.UI.WebControls.Button btnConfirmarEliminarCap;
     }
 }

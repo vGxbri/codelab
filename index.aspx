@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <asp:ImageButton ID="imgLogo" runat="server" ImageUrl="imgs/logo-full.png" CssClass="imgLogo" OnClick="imgLogo_Click" />
                 
-                <!-- Add hamburger toggle button -->
+                <!-- Botón para mostrar el menú (en tablets/móviles) -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#ffffff" viewBox="0 0 16 16">
@@ -26,7 +26,7 @@
                     </span>
                 </button>
                 
-                <!-- Wrap the navigation in a collapsible div -->
+                <!-- Envolver la navegación en un div colapsable -->
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav ms-auto" id="navbarNotLogged" style="display: flex;" runat="server">
                         <li class="nav-item btn-sesion">
@@ -59,10 +59,10 @@
             <hr style="margin-top: 24px;">
         </nav>
 
-        
-
+        <!-- Contenedor principal -->
         <div class="container">
             <asp:MultiView ID="paginas" runat="server" ActiveViewIndex="0">
+                <!-- Vista de la página principal -->
                 <asp:View ID="pagPrincipal" runat="server">
                     <div class="divSlogan">
                         <h1 class="slogan">CodeLab, la web con los <b class="titDestacado">mejores cursos</b> de todo internet.</h1>
@@ -95,7 +95,7 @@
                     <!-- TARJETAS DE CURSOS (6) -->
                     <asp:label ID="labelDebug" CssClass="d-flex justify-content-center mb-4" runat="server" ForeColor="White" />
                     <div class="row row-cols-1 row-cols-md-3 g-4 mb-4" id="cursosDisponibles3">
-                        <asp:Repeater ID="rptCursos3" runat="server">
+                        <asp:Repeater ID="rptCursos6" runat="server">
                             <ItemTemplate>
                                 <div class="col">
                                     <div class="card h-100">
@@ -116,6 +116,8 @@
                     </div>
 
                 </asp:View>
+                
+                <!-- Vista de la página del catálogo -->
                 <asp:View ID="pagCatalogo" runat="server">
                     <div class="divCursosDisponibles">
                         <h2 class="tit1 text-center">Cursos disponibles</h2>
@@ -153,6 +155,8 @@
                         </asp:Repeater>
                     </div>
                 </asp:View>
+
+                <!-- Vista de la página de mis cursos -->
                 <asp:View ID="pagMisCursos" runat="server">
                     <div class="divCursosDisponibles">
                         <h2 class="tit1">Mis Cursos</h2>
@@ -171,6 +175,7 @@
                                 <asp:LinkButton ID="btnIrCatalogo" runat="server" CssClass="btn btn-primary btnUnirme" style="margin-top: 16px;" OnClick="btnCatalogo_Click" Text="Explorar catálogo"></asp:LinkButton>
                             </div>
                         </asp:Panel>
+
                         <asp:Repeater ID="rptMisCursos" runat="server">
                             <ItemTemplate>
                                 <div class="col-md-6 col-lg-4">
@@ -216,10 +221,9 @@
                                 </div>
                             </ItemTemplate>
                         </asp:Repeater>
-
-                        
                     </div>
-                    <!-- Solo visto por instructores -->
+
+                    <!-- Solo visto por instructores (crear curso) -->
                     <asp:Panel ID="pnlInstructorButton" runat="server" Visible="false">
                         <div class="espaciadorGeneral mb-4"></div>
                         <div class="d-flex justify-content-center mb-4">
@@ -227,12 +231,15 @@
                         </div>
                     </asp:Panel>
                 </asp:View>
+
+                <!-- Vista de la página de los planes -->
                 <asp:View ID="pagPlanes" runat="server">
                     <div class="container mt-4">
                         <h1 class="tit1 text-center">Actualizar a Premium</h1>
                         <h4 class="text-center descPlanes">Aquí tienes una muestra de los planes que tenemos disponibles actualmente.</h4>
 
                         <div class="row justify-content-center gy-4 mt-4 mt-md-0">
+                            <!-- Plan Básico -->
                             <div class="planes col-12 col-lg-5 mx-3" id="plan1">
                                 <div class="divTitPlanes">
                                     <h4 class="titPlanes">Plan Básico</h4>
@@ -301,6 +308,8 @@
                                     <asp:Button ID="btnPlanGratuito" runat="server" CssClass="btn btn-outline-primary-mejorar" Text="Plan actual" Enabled="false" OnClick="btnPlanGratuito_Click"/>
                                 </div>
                             </div>
+
+                            <!-- Plan Premium -->
                             <div class="planes col-12 col-lg-5 mx-3" id="plan2">
                                 <div class="divTitPlanes">
                                     <h4 class="titPlanes">Plan Premium</h4>
@@ -385,6 +394,7 @@
                     </div>
                 </asp:View>
 
+                <!-- Vista de la página del perfil -->
                 <asp:View ID="pagPerfil" runat="server">
                     <div class="container mt-4">
                         <h1 class="tit1 text-center">Datos Personales</h1>
@@ -517,11 +527,12 @@
                     </div>
                 </asp:View>
 
+                <!-- Vista de la página cuando entras un curso -->
                 <asp:View ID="pagCursoIn" runat="server">
                     <asp:Label ID="labelDebugCursosIn" CssClass="d-flex justify-content-center mb-4" runat="server" ForeColor="White" />
                     <div class="container-fluid px-4">
                         <div class="row">
-                            <!-- Left Column -->
+                            <!-- Columna Izquierda -->
                             <div class="col-lg-8 mb-4 mb-lg-0">
                                 <div class="divLeftCursoIn">
                                     <asp:Repeater ID="rptCurso" runat="server">
@@ -529,7 +540,7 @@
                                             <div class="imgCursoContainer mb-4">
                                                 <asp:Image ID="imgCursoIn" runat="server" CssClass="imgCursoIn img-fluid w-100" ImageUrl='<%# Eval("img") %>' alt="Curso" />
                                                 <button type="button" class="btnPlay" onclick="playVideo()">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="#ffffff" class="bi bi-play-circle" viewBox="0 0 16 16">
                                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.271 5.055a.5.5 0 0 0-.771.422v5.046a.5.5 0 0 0 .771.422l4.5-2.523a.5.5 0 0 0 0-.844l-4.5-2.523z"/>
                                                     </svg>
                                                 </button>
@@ -555,6 +566,8 @@
                                     </asp:Repeater>
                                 </div>
                             </div>
+
+                            <!-- Columna Derecha -->
                             <div class="col-lg-4">
                                 <div class="divRightCursoIn">
                                     <asp:HiddenField ID="hfCursoId" runat="server" />
@@ -569,9 +582,9 @@
                                                     </asp:LinkButton>
                                                     <asp:LinkButton ID="btnDeleteChapter" runat="server" 
                                                                     CssClass="btn btn-primary btnMarcarVisto btnDeleteChapter ms-2" 
-                                                                    CommandName="ShowDeleteModal" 
+                                                                    CommandName="mostrarModalEliminarCap"
                                                                     CommandArgument='<%# Eval("id") %>'
-                                                                    Visible='<%# IsCourseInstructor(Convert.ToInt32(Eval("curso_id"))) %>'>
+                                                                    Visible='<%# esInstructorDelCurso(Convert.ToInt32(Eval("curso_id"))) %>'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
                                                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                                         </svg>
@@ -596,6 +609,7 @@
             </asp:MultiView>
         </div>
 
+        <!-- Pie de página -->
         <footer class="footer">
 			<div class="container">
 				<div class="row justify-content-center">
@@ -646,7 +660,7 @@
                 <div class="espaciadorGeneral mb-4"></div>
                 <div class="modal-body">
                     <div class="row">
-                        <!-- Left Column -->
+                        <!-- Columna Izquierda -->
                         <div class="col-md-6">
                             <div class="form-floating mb-4">
                                 <asp:TextBox ID="txtTituloCurso" runat="server" CssClass="form-control inputDark" placeholder="Título" />
@@ -689,10 +703,10 @@
                             </div>
                         </div>
                         
-                        <!-- Right Column -->
+                        <!-- Columna derecha -->
                         <div class="col-md-6">
                             <div id="chaptersContainer">
-                                <!-- Initial 3 chapters -->
+                                <!-- 3 capítulos iniciales -->
                                 <div class="form-floating mb-3">
                                     <asp:TextBox ID="txtCapitulo1" runat="server" CssClass="form-control inputDark chapter-input" placeholder="Capítulo 1" />
                                     <label for="txtCapitulo1" class="text-muted">Capítulo 1</label>
@@ -737,10 +751,10 @@
                     </div>
                 </div>
                 <div class="modal-footer border-0">
-                    <asp:Button ID="btnGuardarCurso" runat="server" 
+                    <asp:Button ID="btnCrearCursoModal" runat="server" 
                         Text="Crear curso" 
                         CssClass="btn btn-primary btnMejorar" 
-                        OnClick="btnGuardarCurso_Click"
+                        OnClick="btnCrearCursoModal_Click"
                         ValidationGroup="CrearCurso" />
                 </div>
             </div>
@@ -837,7 +851,8 @@
             </div>
         </div>
     </div>
-
+        
+    <!-- Modal Añadir Capítulo -->
     <div class="modal fade" id="modalAddChapter" tabindex="-1" aria-labelledby="modalAddChapterLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content planes">
@@ -859,10 +874,10 @@
                     </div>
                 </div>
                 <div class="modal-footer border-0">
-                    <asp:Button ID="btnSaveNewChapter" runat="server" 
+                    <asp:Button ID="btnGuardarNuevoCap" runat="server" 
                         Text="Guardar capítulo" 
                         CssClass="btn btn-primary btnMejorar" 
-                        OnClick="btnSaveNewChapter_Click"
+                        OnClick="btnGuardarNuevoCap_Click"
                         ValidationGroup="AddChapter" />
                 </div>
             </div>
@@ -879,16 +894,16 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
-                    <asp:Button ID="btnConfirmDeleteChapter" runat="server" 
+                    <asp:Button ID="btnConfirmarEliminarCap" runat="server" 
                                 CssClass="btn btn-danger btn-cerrarSesion" 
                                 Text="Eliminar" 
-                                OnClick="btnConfirmDeleteChapter_Click" />
+                                OnClick="btnConfirmarEliminarCap_Click" />
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Notificación Toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="emailToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -942,26 +957,29 @@
     
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
     <script type="text/javascript">
-        let chapterCount = 3; // Changed initial count to 3
+        let contCapitulos = 3;
         const MAX_CHAPTERS = 10;
 
+        // Función para añadir capítulo en el formulario, ya que en c# daba problemas.
+        // Esta función solo hace que se añada un capítulo en el formulario, no realmente.
         function addChapter() {
-            if (chapterCount >= MAX_CHAPTERS) {
+            if (contCapitulos >= MAX_CHAPTERS) {
                 alert('Has alcanzado el límite máximo de capítulos (10)');
                 return;
             }
 
-            chapterCount++;
+            contCapitulos++;
             const container = document.getElementById('chaptersContainer');
             
             const div = document.createElement('div');
             div.className = 'form-floating mb-3 position-relative';
             div.innerHTML = `
                 <input type="text" class="form-control inputDark chapter-input" 
-                    id="chapter${chapterCount}" name="chapter${chapterCount}" 
-                    placeholder="Capítulo ${chapterCount}" />
-                <label class="text-muted">Capítulo ${chapterCount}</label>
+                    id="chapter${contCapitulos}" name="chapter${contCapitulos}" 
+                    placeholder="Capítulo ${contCapitulos}" />
+                <label class="text-muted">Capítulo ${contCapitulos}</label>
                 <span class="text-danger validation-message" style="display: none;">El título del capítulo es requerido</span>
                 <button type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y text-danger" 
                         style="padding: 0.375rem;" onclick="removeChapter(this)">
@@ -974,15 +992,14 @@
             
             container.appendChild(div);
 
-            // Add validation event
             const input = div.querySelector('.chapter-input');
             input.addEventListener('input', function() {
                 this.nextElementSibling.nextElementSibling.style.display = 'none';
             });
         }
 
-        // Update the btnGuardarCurso click handler to validate all chapters
-        document.getElementById('<%= btnGuardarCurso.ClientID %>').addEventListener('click', function(e) {
+        // Actualizar el click del botón btnCrearCursoModal para validar todos los capítulos
+        document.getElementById('<%= btnCrearCursoModal.ClientID %>').addEventListener('click', function(e) {
             const chapters = document.querySelectorAll('.chapter-input');
             let isValid = true;
 
@@ -1000,12 +1017,14 @@
                 e.preventDefault();
             }
         });
-    
+        
+        // Función para eliminar capítulo en el formulario, ya que en c# daba problemas.
+        // Esta función solo hace que se elimine un capítulo en el formulario, no realmente.
         function removeChapter(button) {
             button.closest('.form-floating').remove();
-            chapterCount--;
+            contCapitulos--;
             
-            // Renumber remaining chapters
+            // Renumerar capítulos restantes
             const chapters = document.querySelectorAll('.chapter-input');
             chapters.forEach((chapter, index) => {
                 const label = chapter.nextElementSibling;

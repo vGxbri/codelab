@@ -51,15 +51,6 @@ namespace PaginaCursos
         protected global::System.Web.UI.WebControls.View vLogin;
 
         /// <summary>
-        /// txtUsuarioLogin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUsuarioLogin;
-
-        /// <summary>
         /// txtPasswordLogin control.
         /// </summary>
         /// <remarks>

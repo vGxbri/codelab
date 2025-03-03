@@ -14,6 +14,7 @@ namespace PaginaCursos
             if (!IsPostBack)
             {
                 string view = Request.QueryString["view"];
+                // Mostrar vista dependiendo de qué haya sido seleccionado
                 if (view == "register")
                 {
                     mvAuth.ActiveViewIndex = 1;
@@ -122,16 +123,16 @@ namespace PaginaCursos
             }
         }
 
+        // Cambiar entre las vistas de registro e inicio de sesión
         protected void lnkShowRegister_Click(object sender, EventArgs e)
         {
             mvAuth.ActiveViewIndex = 1;
         }
-
         protected void lnkShowLogin_Click(object sender, EventArgs e)
         {
             mvAuth.ActiveViewIndex = 0;
         }
-
+        
         protected void redirigirPagina(object sender, EventArgs e)
         {
             Response.Redirect("index.aspx");

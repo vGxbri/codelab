@@ -19,7 +19,7 @@ namespace PaginaCursos
     {
         string connectionString = "DataBase=codelab;DataSource=localhost;user=root;Port=3306";
         private const int MAX_CHAPTERS = 10;
-        private int chapterCount = 1;
+        private int contCapitulos = 1;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -38,12 +38,19 @@ namespace PaginaCursos
                     using (MySqlConnection connection = new MySqlConnection(connectionString))
                     {
                         connection.Open();
-                        string query = "SELECT s.estado FROM suscripciones s JOIN estudiantes e ON s.estudiante_id = e.id WHERE e.correo_electronico = @correo_electronico AND s.estado = 'activa'";
+                        string query = @"SELECT s.estado 
+                                        FROM suscripciones s 
+                                        JOIN estudiantes e 
+                                        ON s.estudiante_id = e.id 
+                                        WHERE e.correo_electronico = @correo_electronico 
+                                        AND s.estado = 'activa'";
+                        
                         MySqlCommand command = new MySqlCommand(query, connection);
                         command.Parameters.AddWithValue("@correo_electronico", email);
 
                         string estadoSuscripcion = (string)command.ExecuteScalar();
 
+                        // Actualizar los botones de los planes
                         if (estadoSuscripcion == "activa")
                         {
                             btnPlanGratuito.Text = "Volver a Plan Básico";
@@ -74,7 +81,6 @@ namespace PaginaCursos
                 }
 
                 paginas.ActiveViewIndex = 0;
-                //cargarCursos();
                 cargarCursosPrincipal();
             }
         }
@@ -91,6 +97,7 @@ namespace PaginaCursos
 
         protected void cargarCursosPrincipal()
         {
+            // Seleccionar 6 cursos (página principal)
             string query = @"SELECT c.id, c.titulo, c.descripcion, c.img, i.nombre AS instructor
                             FROM cursos c
                             JOIN instructores i ON c.instructor_id = i.id
@@ -103,8 +110,8 @@ namespace PaginaCursos
                     connection.Open();
                     MySqlDataReader reader = command.ExecuteReader();
 
-                    rptCursos3.DataSource = reader;
-                    rptCursos3.DataBind();
+                    rptCursos6.DataSource = reader;
+                    rptCursos6.DataBind();
                 }
             }
             catch (Exception ex)
@@ -116,6 +123,8 @@ namespace PaginaCursos
         protected void cargarCursos()
         {
             string email = Session["Usuario"].ToString();
+
+            // Seleccionar todos los cursos
             string query = @"SELECT c.id, c.titulo, c.descripcion, c.es_premium, c.img, i.nombre AS instructor,
                             (SELECT COUNT(*) FROM inscripciones WHERE estudiante_id = e.id AND curso_id = c.id) AS inscrito
                             FROM cursos c
@@ -148,6 +157,7 @@ namespace PaginaCursos
                 System.Web.UI.WebControls.Button btnUnirme = (System.Web.UI.WebControls.Button)e.Item.FindControl("btnUnirme");
 
                 bool inscrito = Convert.ToBoolean(DataBinder.Eval(e.Item.DataItem, "inscrito"));
+                // Si el curso es premium y el usuario no tiene una suscripción premium activa, deshabilitar el botón
                 if (inscrito)
                 {
                     btnUnirme.Text = "Ya inscrito";
@@ -167,7 +177,7 @@ namespace PaginaCursos
         {
             paginas.ActiveViewIndex = 2;
             CargarMisCursos();
-            CheckIfInstructor();
+            verificarInstructor();
         }
 
         protected void btnPlanes_Click(object sender, EventArgs e)
@@ -178,7 +188,7 @@ namespace PaginaCursos
         protected void btnPerfil_Click(object sender, EventArgs e)
         {
             paginas.ActiveViewIndex = 4;
-            LoadProfileInformation();
+            cargarInfoPerfil();
         }
 
         protected void imgLogo_Click(object sender, ImageClickEventArgs e)
@@ -259,7 +269,7 @@ namespace PaginaCursos
                     // Cargar el curso y cambiar la vista
                     cargarCurso(cursoId);
                     paginas.ActiveViewIndex = 5;
-                    CheckCourseOwnership(cursoId);
+                    verificarCreadorCurso(cursoId);
                 }
             }
         }
@@ -306,23 +316,23 @@ namespace PaginaCursos
                 {
                     connection.Open();
 
-                    // Get student ID
+                    // Conseguir el id del estudiante
                     string getIdQuery = "SELECT id FROM estudiantes WHERE correo_electronico = @correo_electronico";
                     MySqlCommand getIdCommand = new MySqlCommand(getIdQuery, connection);
                     getIdCommand.Parameters.AddWithValue("@correo_electronico", email);
                     long estudianteId = Convert.ToInt64(getIdCommand.ExecuteScalar());
 
-                    // Calculate new end date (30 days from now)
+                    // Calcular nueva fecha de fin (30 días desde ahora)
                     DateTime fechaFin = DateTime.Now.AddDays(30);
 
-                    // Update subscription to premium and set end date
+                    // Actualizar la suscripción a premium y establecer la fecha de fin
                     string updateQuery = "UPDATE suscripciones SET estado = 'activa', fecha_fin = @fecha_fin WHERE estudiante_id = @estudiante_id AND estado = 'inactiva'";
                     MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                     updateCommand.Parameters.AddWithValue("@estudiante_id", estudianteId);
                     updateCommand.Parameters.AddWithValue("@fecha_fin", fechaFin);
                     updateCommand.ExecuteNonQuery();
 
-                    // Update buttons
+                    // Actualizar botones y limpiar campos
                     btnPlanGratuito.Text = "Volver a Plan Básico";
                     btnPlanGratuito.Enabled = true;
                     btnPlanGratuito.CssClass = "btn btn-primary btnMejorar";
@@ -331,13 +341,12 @@ namespace PaginaCursos
                     btnPlanPremium.Enabled = false;
                     btnPlanPremium.CssClass = "btn btn-outline-primary-mejorar";
 
-                    // Clear form fields
                     txtNumeroTarjeta.Text = string.Empty;
                     txtFechaExp.Text = string.Empty;
                     txtCVV.Text = string.Empty;
                     txtNombreTarjeta.Text = string.Empty;
 
-                    // Add JavaScript to close the modal
+                    // Cerrar el modal (de la forma que indica bootstrap)
                     ScriptManager.RegisterStartupScript(this, GetType(), "closeModal", 
                         "var modal = bootstrap.Modal.getInstance(document.getElementById('modalTarjeta')); modal.hide();", true);
                 }
@@ -366,17 +375,16 @@ namespace PaginaCursos
                     string email = Session["Usuario"].ToString();
                     hfCursoId.Value = cursoId.ToString();
 
-                    // Get estudiante_id first
+                    // Conseguir el id del estudiante
                     string getIdQuery = "SELECT id FROM estudiantes WHERE correo_electronico = @correo_electronico";
                     MySqlCommand getIdCommand = new MySqlCommand(getIdQuery, connection);
                     getIdCommand.Parameters.AddWithValue("@correo_electronico", email);
                     long estudianteId = Convert.ToInt64(getIdCommand.ExecuteScalar());
 
-                    // Initialize variables outside the if statement
                     long capituloId = 0;
-                    bool isChapterViewed = false;
+                    bool capituloVisto = false;
 
-                    // Load course data
+                    // Cargar datos del curso
                     MySqlCommand commandCurso = new MySqlCommand(queryCurso, connection);
                     commandCurso.Parameters.AddWithValue("@curso_id", cursoId);
                     MySqlDataReader readerCurso = commandCurso.ExecuteReader();
@@ -384,6 +392,7 @@ namespace PaginaCursos
                     if (readerCurso.Read())
                     {
                         capituloId = Convert.ToInt64(readerCurso["capitulo_id"]);
+                        // Lista con todos los datos del curso
                         var cursoData = new List<object>
                         {
                             new
@@ -405,7 +414,7 @@ namespace PaginaCursos
                     }
                     readerCurso.Close();
 
-                    // Check if first chapter is viewed using the capituloId variable
+                    // Verificar si el primer capítulo está visto
                     string checkViewedQuery = @"SELECT visto FROM capitulos_vistos 
                                             WHERE capitulo_id = @capitulo_id 
                                             AND estudiante_id = @estudiante_id";
@@ -414,9 +423,9 @@ namespace PaginaCursos
                     checkViewedCommand.Parameters.AddWithValue("@estudiante_id", estudianteId);
                     
                     object result = checkViewedCommand.ExecuteScalar();
-                    isChapterViewed = result != null && Convert.ToInt32(result) == 1;
+                    capituloVisto = result != null && Convert.ToInt32(result) == 1;
 
-                    // Update UI elements for viewed status
+                    // Actualizar el estado del botón "Marcar como visto"
                     foreach (RepeaterItem item in rptCurso.Items)
                     {
                         LinkButton btnMarcarVisto = (LinkButton)item.FindControl("btnMarcarVisto");
@@ -424,7 +433,7 @@ namespace PaginaCursos
                         System.Web.UI.HtmlControls.HtmlGenericControl svgOjoAbierto = (System.Web.UI.HtmlControls.HtmlGenericControl)btnMarcarVisto.FindControl("svgOjoAbierto");
                         System.Web.UI.HtmlControls.HtmlGenericControl svgOjoCerrado = (System.Web.UI.HtmlControls.HtmlGenericControl)btnMarcarVisto.FindControl("svgOjoCerrado");
 
-                        if (isChapterViewed)
+                        if (capituloVisto)
                         {
                             lblMarcarVisto.Text = "Visto";
                             svgOjoAbierto.Style["display"] = "none";
@@ -438,7 +447,7 @@ namespace PaginaCursos
                         }
                     }
 
-                    // Load chapters
+                    // Cargar los capítulos
                     MySqlCommand commandCapitulos = new MySqlCommand(queryCapitulos, connection);
                     commandCapitulos.Parameters.AddWithValue("@curso_id", cursoId);
                     MySqlDataReader readerCapitulos = commandCapitulos.ExecuteReader();
@@ -459,7 +468,7 @@ namespace PaginaCursos
             System.Web.UI.HtmlControls.HtmlGenericControl svgOjoAbierto = (System.Web.UI.HtmlControls.HtmlGenericControl)btnMarcarVisto.FindControl("svgOjoAbierto");
             System.Web.UI.HtmlControls.HtmlGenericControl svgOjoCerrado = (System.Web.UI.HtmlControls.HtmlGenericControl)btnMarcarVisto.FindControl("svgOjoCerrado");
 
-            // Get capitulo_id and curso_id from hidden fields
+            // Conseguir capitulo_id y curso_id de los campos ocultos (HiddenFields)
             HiddenField hfCapituloId = (HiddenField)btnMarcarVisto.FindControl("hfCapituloId");
             HiddenField hfCursoId = (HiddenField)btnMarcarVisto.FindControl("hfCursoId");
             long capituloId = Convert.ToInt64(hfCapituloId.Value);
@@ -533,7 +542,7 @@ namespace PaginaCursos
                 string tituloCapitulo = args[1];
 
                 string email = Session["Usuario"].ToString();
-                bool isChapterViewed = false;
+                bool capituloVisto = false;
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
@@ -554,31 +563,32 @@ namespace PaginaCursos
                     checkViewedCommand.Parameters.AddWithValue("@estudiante_id", estudianteId);
                     
                     object result = checkViewedCommand.ExecuteScalar();
-                    isChapterViewed = result != null && Convert.ToInt32(result) == 1;
+                    capituloVisto = result != null && Convert.ToInt32(result) == 1;
                 }
 
+                // Para cada item en rptCurso
                 foreach (RepeaterItem item in rptCurso.Items)
                 {
                     if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                     {
-                        // Update the chapter title
+                        // Actualizar el título del capítulo
                         System.Web.UI.WebControls.Label lblCapCursoIn = (System.Web.UI.WebControls.Label)item.FindControl("lblCapCursoIn");
                         lblCapCursoIn.Text = $"{numeroCapitulo}.<span> {tituloCapitulo}</span>";
 
-                        // Update the hidden field in the main course display
+                        // Actualziar el hidden field
                         HiddenField mainHfCapituloId = (HiddenField)item.FindControl("hfCapituloId");
                         if (mainHfCapituloId != null)
                         {
                             mainHfCapituloId.Value = capituloId;
                         }
 
-                        // Update the viewed status
+                        // Actualizar el estado del botón "Marcar como visto"
                         LinkButton btnMarcarVisto = (LinkButton)item.FindControl("btnMarcarVisto");
                         System.Web.UI.WebControls.Label lblMarcarVisto = (System.Web.UI.WebControls.Label)btnMarcarVisto.FindControl("lblMarcarVisto");
                         System.Web.UI.HtmlControls.HtmlGenericControl svgOjoAbierto = (System.Web.UI.HtmlControls.HtmlGenericControl)btnMarcarVisto.FindControl("svgOjoAbierto");
                         System.Web.UI.HtmlControls.HtmlGenericControl svgOjoCerrado = (System.Web.UI.HtmlControls.HtmlGenericControl)btnMarcarVisto.FindControl("svgOjoCerrado");
 
-                        if (isChapterViewed)
+                        if (capituloVisto)
                         {
                             lblMarcarVisto.Text = "Visto";
                             svgOjoAbierto.Style["display"] = "none";
@@ -593,13 +603,13 @@ namespace PaginaCursos
                     }
                 }
             }
-            else if (e.CommandName == "ShowDeleteModal")
+            else if (e.CommandName == "mostrarModalEliminarCap")
             {
-                // Store the chapter ID in the hidden field
+                // Guardar el ID del capítulo en el campo oculto
                 int chapterId = Convert.ToInt32(e.CommandArgument);
                 hfDeleteChapterId.Value = chapterId.ToString();
                 
-                // Get the chapter number from the database
+                // Conseguir el número del capítulo
                 int chapterNumber = 0;
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
@@ -610,8 +620,8 @@ namespace PaginaCursos
                     chapterNumber = Convert.ToInt32(cmd.ExecuteScalar());
                 }
                 
-                // Update the modal message with the chapter number and show the modal
-                ScriptManager.RegisterStartupScript(this, GetType(), "ShowDeleteModal", $@"
+                // Actualizar el mensaje del modal con el número del capítulo y mostrar el modal
+                ScriptManager.RegisterStartupScript(this, GetType(), "mostrarModalEliminarCap", $@"
                     setTimeout(function() {{
                         document.getElementById('deleteChapterMessage').innerText = '¿Estás seguro de que quieres eliminar el capítulo {chapterNumber}?';
                         var deleteModal = new bootstrap.Modal(document.getElementById('modalDeleteChapter'));
@@ -663,7 +673,7 @@ namespace PaginaCursos
                     // Cargar el curso y cambiar la vista
                     cargarCurso(cursoId);
                     paginas.ActiveViewIndex = 5;
-                    CheckCourseOwnership(cursoId);
+                    verificarCreadorCurso(cursoId);
                 }
             }
         }
@@ -686,15 +696,15 @@ namespace PaginaCursos
                 getIdCommand.Parameters.AddWithValue("@correo_electronico", email);
                 long estudianteId = Convert.ToInt64(getIdCommand.ExecuteScalar());
 
-                // Delete enrollment
-                string deleteInscripcionQuery = "DELETE FROM inscripciones WHERE estudiante_id = @estudiante_id AND curso_id = @curso_id";
-                MySqlCommand deleteInscripcionCommand = new MySqlCommand(deleteInscripcionQuery, connection);
-                deleteInscripcionCommand.Parameters.AddWithValue("@estudiante_id", estudianteId);
-                deleteInscripcionCommand.Parameters.AddWithValue("@curso_id", cursoId);
-                deleteInscripcionCommand.ExecuteNonQuery();
+                // Eliminar la inscripción del estudiante al curso
+                string eliminarInscripcionQuery = "DELETE FROM inscripciones WHERE estudiante_id = @estudiante_id AND curso_id = @curso_id";
+                MySqlCommand eliminarInscripcionCommand = new MySqlCommand(eliminarInscripcionQuery, connection);
+                eliminarInscripcionCommand.Parameters.AddWithValue("@estudiante_id", estudianteId);
+                eliminarInscripcionCommand.Parameters.AddWithValue("@curso_id", cursoId);
+                eliminarInscripcionCommand.ExecuteNonQuery();
             }
 
-            // Reload MisCursos view
+            // Regargar vista de mis cursos
             CargarMisCursos();
         }
 
@@ -704,6 +714,7 @@ namespace PaginaCursos
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
+                // Query para obtener los cursos en los que está inscrito el estudiante
                 string query = @"SELECT c.*, c.es_premium, instr.nombre AS nombre_instructor,
                                 (SELECT COUNT(*) FROM capitulos WHERE curso_id = c.id) as total_capitulos,
                                 (SELECT COUNT(*) FROM capitulos_vistos cv 
@@ -724,6 +735,7 @@ namespace PaginaCursos
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
+                // Si hay cursos, mostrar el repeater, si no, mostrar el div de sin cursos
                 if (dt.Rows.Count > 0)
                 {
                     rptMisCursos.DataSource = dt;
@@ -740,7 +752,8 @@ namespace PaginaCursos
             }
         }
 
-        private void CheckIfInstructor()
+        // Función para verificar si el usuario es instructor
+        private void verificarInstructor()
         {
             string email = Session["Usuario"].ToString();
             
@@ -756,30 +769,31 @@ namespace PaginaCursos
                 command.Parameters.AddWithValue("@email", email);
                 
                 int count = Convert.ToInt32(command.ExecuteScalar());
+                // Si es instructor, mostrar el panel del instructor con el botón para crear curso
                 pnlInstructorButton.Visible = (count > 0);
             }
         }
 
         protected void btnActualizarEmail_Click(object sender, EventArgs e)
         {
-            string currentEmail = Session["Usuario"].ToString();
-            string newEmail = txtEmailPerfil.Text.Trim();
+            string emailActual = Session["Usuario"].ToString();
+            string emailNuevo = txtEmailPerfil.Text.Trim();
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
-                // Check if new email already exists
+                // Verificar si el nuevo correo ya existe
                 string checkEmailQuery = "SELECT COUNT(*) FROM estudiantes WHERE correo_electronico = @nuevo_email AND correo_electronico != @email_actual";
                 MySqlCommand checkEmailCommand = new MySqlCommand(checkEmailQuery, connection);
-                checkEmailCommand.Parameters.AddWithValue("@nuevo_email", newEmail);
-                checkEmailCommand.Parameters.AddWithValue("@email_actual", currentEmail);
+                checkEmailCommand.Parameters.AddWithValue("@nuevo_email", emailNuevo);
+                checkEmailCommand.Parameters.AddWithValue("@email_actual", emailActual);
 
                 int emailExists = Convert.ToInt32(checkEmailCommand.ExecuteScalar());
 
                 if (emailExists > 0)
                 {
-                    // Email already exists
+                    // El correo ya existe (mostrar toast)
                     ScriptManager.RegisterStartupScript(this, GetType(), "ShowEmailExistsToast", @"
                         document.addEventListener('DOMContentLoaded', function() {
                             var toastElement = document.getElementById('emailExistsToast');
@@ -790,24 +804,17 @@ namespace PaginaCursos
                     return;
                 }
 
-                // Update email
+                // Actualizar correo
                 string updateQuery = "UPDATE estudiantes SET correo_electronico = @nuevo_email WHERE correo_electronico = @email_actual";
                 MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                updateCommand.Parameters.AddWithValue("@nuevo_email", newEmail);
-                updateCommand.Parameters.AddWithValue("@email_actual", currentEmail);
+                updateCommand.Parameters.AddWithValue("@nuevo_email", emailNuevo);
+                updateCommand.Parameters.AddWithValue("@email_actual", emailActual);
                 updateCommand.ExecuteNonQuery();
 
-                // Update session
-                Session["Usuario"] = newEmail;
-                
-                // Clear the textbox
+                Session["Usuario"] = emailNuevo;
                 txtEmailPerfil.Text = string.Empty;
 
-                // After successful update
-                Session["Usuario"] = newEmail;
-                txtEmailPerfil.Text = string.Empty;
-
-                // Show toast notification with proper initialization
+                 // Después de actualizar el correo, mostrar un toast
                 string script = @"
                     document.addEventListener('DOMContentLoaded', function() {
                         var toastElement = document.getElementById('emailToast');
@@ -824,37 +831,38 @@ namespace PaginaCursos
             if (Page.IsValid)
             {
                 string email = Session["Usuario"].ToString();
-                string currentPassword = txtPasswordActual.Text;
-                string newPassword = txtPasswordNueva.Text;
+                string actualPassword = txtPasswordActual.Text;
+                string nuevaPassword = txtPasswordNueva.Text;
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    // Verify current password
+                    // Verificar contraseña actual
                     string checkPasswordQuery = "SELECT hash_contrasena FROM estudiantes WHERE correo_electronico = @email";
                     MySqlCommand checkPasswordCommand = new MySqlCommand(checkPasswordQuery, connection);
                     checkPasswordCommand.Parameters.AddWithValue("@email", email);
                     string storedHash = (string)checkPasswordCommand.ExecuteScalar();
 
-                    if (BCrypt.Net.BCrypt.Verify(currentPassword, storedHash))
+                    // Si coinciden (utilizando BCrypt)
+                    if (BCrypt.Net.BCrypt.Verify(actualPassword, storedHash))
                     {
-                        // Hash new password
-                        string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                        // Hashear nueva contraseña
+                        string nuevaHashedPassword = BCrypt.Net.BCrypt.HashPassword(nuevaPassword);
 
-                        // Update password
+                        // Actualizar la contraseña
                         string updateQuery = "UPDATE estudiantes SET hash_contrasena = @nueva_contrasena WHERE correo_electronico = @email";
                         MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
-                        updateCommand.Parameters.AddWithValue("@nueva_contrasena", newHashedPassword);
+                        updateCommand.Parameters.AddWithValue("@nueva_contrasena", nuevaHashedPassword);
                         updateCommand.Parameters.AddWithValue("@email", email);
                         updateCommand.ExecuteNonQuery();
 
-                        // Clear form
+                        // Limpiar campos
                         txtPasswordActual.Text = string.Empty;
                         txtPasswordNueva.Text = string.Empty;
                         txtPasswordConfirm.Text = string.Empty;
 
-                        // Show success toast
+                        // Mostrar notificación de éxito (toast)
                         string script = @"
                             document.addEventListener('DOMContentLoaded', function() {
                                 var toastElement = document.getElementById('passwordToast');
@@ -866,7 +874,7 @@ namespace PaginaCursos
                     }
                     else
                     {
-                        // Show error toast for incorrect current password
+                        // Mostrar notificación de error (toast)
                         string script = @"
                             document.addEventListener('DOMContentLoaded', function() {
                                 var toastElement = document.getElementById('passwordErrorToast');
@@ -880,7 +888,7 @@ namespace PaginaCursos
             }
         }
 
-        private void LoadProfileInformation()
+        private void cargarInfoPerfil()
         {
             string email = Session["Usuario"].ToString();
 
@@ -888,7 +896,7 @@ namespace PaginaCursos
             {
                 connection.Open();
 
-                // First get the user's basic information
+                // Conseguir toda la información del usuario
                 string userQuery = @"SELECT 
                                     e.nombre, e.apellidos, e.fecha_creacion, e.correo_electronico,
                                     (SELECT COUNT(*) 
@@ -933,7 +941,7 @@ namespace PaginaCursos
                     }
                 }
 
-                // Now get the course history
+                // Conseguir el historial de cursos
                 string historyQuery = @"SELECT 
                     c.titulo,
                     i.fecha_inscripcion,
@@ -959,25 +967,22 @@ namespace PaginaCursos
             }
         }
 
-        protected void btnGuardarCurso_Click(object sender, EventArgs e)
+        protected void btnCrearCursoModal_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
             {
                 string email = Session["Usuario"].ToString();
                 string connectionString = "DataBase=codelab;DataSource=localhost;user=root;Port=3306";
 
-                // Handle image upload
+                // Manejar la imagen
                 string imageFileName = "";
                 if (fuImagenCurso.HasFile)
                 {
-                    // Generate unique filename
+                    // Generar un nombre único para la imagen
                     string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(fuImagenCurso.FileName);
                     string savePath = Server.MapPath("~/imgs/cursos/") + uniqueFileName;
                     
-                    // Create directory if it doesn't exist
-                    Directory.CreateDirectory(Server.MapPath("~/imgs/cursos/"));
-                    
-                    // Save the file
+                    // Guardar el archivo
                     fuImagenCurso.SaveAs(savePath);
                     imageFileName = "imgs/cursos/" + uniqueFileName;
                 }
@@ -986,7 +991,7 @@ namespace PaginaCursos
                 {
                     connection.Open();
 
-                    // First, get instructor_id using the correct join
+                    // Conseguir el ID del instructor
                     string queryInstructor = @"SELECT i.id 
                                             FROM instructores i 
                                             JOIN estudiantes e ON i.estudiante_id = e.id 
@@ -995,17 +1000,9 @@ namespace PaginaCursos
                     cmdInstructor.Parameters.AddWithValue("@email", email);
                     object instructorIdResult = cmdInstructor.ExecuteScalar();
 
-                    if (instructorIdResult == null)
-                    {
-                        // Handle case where user is not an instructor
-                        ScriptManager.RegisterStartupScript(this, GetType(), "alert", 
-                            "alert('No tienes permisos de instructor para crear cursos.');", true);
-                        return;
-                    }
-
                     int instructorId = Convert.ToInt32(instructorIdResult);
 
-                    // Rest of the course creation code remains the same
+                    // Insertar el curso en la base de datos
                     string queryCurso = @"INSERT INTO cursos (titulo, descripcion, img, es_premium, instructor_id, fecha_creacion) 
                                         VALUES (@titulo, @descripcion, @img, @es_premium, @instructor_id, NOW())";
                     
@@ -1017,36 +1014,36 @@ namespace PaginaCursos
                     cmdCurso.Parameters.AddWithValue("@instructor_id", instructorId);
                     cmdCurso.ExecuteNonQuery();
 
-                    // Get the ID of the inserted course
+                    // Conseguir el ID del curso recién insertado
                     long cursoId = cmdCurso.LastInsertedId;
 
-                    // Insert initial chapters
+                    // Insertar los capítulos
                     string queryCapitulos = "INSERT INTO capitulos (curso_id, numero_capitulo, titulo) VALUES (@curso_id, @numero, @titulo)";
                     
-                    // Insert the first 3 chapters from ASP.NET controls
-                    InsertChapter(connection, cursoId, 1, txtCapitulo1.Text);
-                    InsertChapter(connection, cursoId, 2, txtCapitulo2.Text);
-                    InsertChapter(connection, cursoId, 3, txtCapitulo3.Text);
+                    // Inertar los primeros 3 capítulos desde controles ASP.NET
+                    insertarCapitulo(connection, cursoId, 1, txtCapitulo1.Text);
+                    insertarCapitulo(connection, cursoId, 2, txtCapitulo2.Text);
+                    insertarCapitulo(connection, cursoId, 3, txtCapitulo3.Text);
 
-                    // Insert additional chapters from form collection
+                    // Insertar los otros capítulos desde el formulario
                     for (int i = 4; i <= 10; i++)
                     {
-                        string chapterValue = Request.Form[$"chapter{i}"];
-                        if (!string.IsNullOrEmpty(chapterValue))
+                        string valorCap = Request.Form[$"chapter{i}"];
+                        if (!string.IsNullOrEmpty(valorCap))
                         {
-                            InsertChapter(connection, cursoId, i, chapterValue);
+                            insertarCapitulo(connection, cursoId, i, valorCap);
                         }
                     }
                 }
 
-                // Clear form and close modal
+                // Limpiar el formulario y mostrar un mensaje de éxito
                 LimpiarFormularioCurso();
                 ScriptManager.RegisterStartupScript(this, GetType(), "closeCourseModal", 
                     "$('#modalCrearCurso').modal('hide');", true);
             }
         }
 
-        private void InsertChapter(MySqlConnection connection, long cursoId, int numero, string titulo)
+        private void insertarCapitulo(MySqlConnection connection, long cursoId, int numero, string titulo)
         {
             string queryCapitulo = "INSERT INTO capitulos (curso_id, numero_capitulo, titulo) VALUES (@curso_id, @numero, @titulo)";
             MySqlCommand cmdCapitulo = new MySqlCommand(queryCapitulo, connection);
@@ -1066,7 +1063,7 @@ namespace PaginaCursos
             chkCursoPremium.Checked = false;
         }
 
-        private void CheckCourseOwnership(long cursoId)
+        private void verificarCreadorCurso(long cursoId)
         {
             if (Session["Usuario"] != null)
             {
@@ -1076,7 +1073,7 @@ namespace PaginaCursos
                 {
                     connection.Open();
 
-                    // Check if user is course owner and chapter count
+                    // Verificar si el usuario es el creador del curso y el número de capítulos
                     string query = @"SELECT 
                                     (SELECT COUNT(*) 
                                     FROM cursos c 
@@ -1095,16 +1092,18 @@ namespace PaginaCursos
                     {
                         if (reader.Read())
                         {
+                            // Si el usuario es el creador del curso y tiene menos de 10 capítulos, 
+                            // mostrar el botón
                             bool isOwner = Convert.ToInt32(reader["is_owner"]) > 0;
-                            int chapterCount = Convert.ToInt32(reader["chapter_count"]);
-                            pnlAddChapter.Visible = isOwner && chapterCount < 10;
+                            int contCapitulos = Convert.ToInt32(reader["chapter_count"]);
+                            pnlAddChapter.Visible = isOwner && contCapitulos < 10;
                         }
                     }
                 }
             }
         }
 
-        protected void btnSaveNewChapter_Click(object sender, EventArgs e)
+        protected void btnGuardarNuevoCap_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
             {
@@ -1115,20 +1114,20 @@ namespace PaginaCursos
                 {
                     connection.Open();
 
-                    // First check if the course already has 10 chapters
+                    // Primero verificamos si el curso ya tiene 10 capítulos
                     string countQuery = "SELECT COUNT(*) FROM capitulos WHERE curso_id = @cursoId";
                     MySqlCommand countCmd = new MySqlCommand(countQuery, connection);
                     countCmd.Parameters.AddWithValue("@cursoId", cursoId);
-                    int chapterCount = Convert.ToInt32(countCmd.ExecuteScalar());
+                    int contCapitulos = Convert.ToInt32(countCmd.ExecuteScalar());
 
-                    if (chapterCount >= 10)
+                    if (contCapitulos >= 10)
                     {
                         ScriptManager.RegisterStartupScript(this, GetType(), "alert", 
                             "alert('No se pueden añadir más capítulos. El límite es de 10 capítulos por curso.');", true);
                         return;
                     }
 
-                    // If less than 10 chapters, proceed with insertion
+                    // Si tiene menos de 10 capítulos, procedemos con el insert
                     string queryNextNumber = "SELECT COALESCE(MAX(numero_capitulo), 0) + 1 FROM capitulos WHERE curso_id = @cursoId";
                     MySqlCommand cmdNextNumber = new MySqlCommand(queryNextNumber, connection);
                     cmdNextNumber.Parameters.AddWithValue("@cursoId", cursoId);
@@ -1141,7 +1140,7 @@ namespace PaginaCursos
                     cmdInsert.Parameters.AddWithValue("@titulo", newChapterTitle);
                     cmdInsert.ExecuteNonQuery();
 
-                    // Clear the textbox and close modal
+                    // Limpiar el textbox y cerrar el modal
                     txtNewChapterTitle.Text = string.Empty;
                     ScriptManager.RegisterStartupScript(this, GetType(), "closeModal", 
                         "$('#modalAddChapter').modal('hide');", true);
@@ -1151,7 +1150,7 @@ namespace PaginaCursos
             }
         }
 
-        protected bool IsCourseInstructor(int cursoId)
+        protected bool esInstructorDelCurso(int cursoId)
         {
             if (Session["Usuario"] == null)
                 return false;
@@ -1172,20 +1171,21 @@ namespace PaginaCursos
                 cmd.Parameters.AddWithValue("@cursoId", cursoId);
                 cmd.Parameters.AddWithValue("@email", email);
 
+                // Si la cuenta es mayor que 0, el usuario es un instructor del curso
                 return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
             }
         }
 
-        protected void btnConfirmDeleteChapter_Click(object sender, EventArgs e)
+        protected void btnConfirmarEliminarCap_Click(object sender, EventArgs e)
         {
-            // Get the chapter ID from the hidden field
+            // Conseguir el ID del capítulo desde el campo oculto
             int chapterId = Convert.ToInt32(hfDeleteChapterId.Value);
             
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                
-                // First, get the curso_id and numero_capitulo of the chapter to be deleted
+
+                // Primero, obtener el curso_id y numero_capitulo del capítulo a eliminar
                 string getChapterInfoQuery = "SELECT curso_id, numero_capitulo FROM capitulos WHERE id = @chapterId";
                 MySqlCommand getChapterInfoCmd = new MySqlCommand(getChapterInfoQuery, connection);
                 getChapterInfoCmd.Parameters.AddWithValue("@chapterId", chapterId);
@@ -1204,13 +1204,13 @@ namespace PaginaCursos
                 
                 if (cursoId > 0)
                 {
-                    // Delete the chapter
+                    // ELiminar el capítulo
                     string deleteQuery = "DELETE FROM capitulos WHERE id = @chapterId";
                     MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, connection);
                     deleteCmd.Parameters.AddWithValue("@chapterId", chapterId);
                     deleteCmd.ExecuteNonQuery();
                     
-                    // Update the chapter numbers for all chapters with higher numbers
+                    // Actualizar el número de capítulos para todos los capítulos con números más altos
                     string updateNumbersQuery = "UPDATE capitulos SET numero_capitulo = numero_capitulo - 1 " +
                                                 "WHERE curso_id = @cursoId AND numero_capitulo > @deletedChapterNumber";
                     MySqlCommand updateNumbersCmd = new MySqlCommand(updateNumbersQuery, connection);
@@ -1218,7 +1218,7 @@ namespace PaginaCursos
                     updateNumbersCmd.Parameters.AddWithValue("@deletedChapterNumber", deletedChapterNumber);
                     updateNumbersCmd.ExecuteNonQuery();
                     
-                    // Also update any viewed chapters records that might reference higher chapter numbers
+                    // También actualiza cualquier registro de capítulos vistos que pueda referenciar números de capítulo más altos
                     string updateViewedQuery = "UPDATE capitulos_vistos cv " +
                                             "JOIN capitulos c ON cv.capitulo_id = c.id " +
                                             "SET c.numero_capitulo = c.numero_capitulo - 1 " +
@@ -1228,10 +1228,10 @@ namespace PaginaCursos
                     updateViewedCmd.Parameters.AddWithValue("@deletedChapterNumber", deletedChapterNumber);
                     updateViewedCmd.ExecuteNonQuery();
                     
-                    // Reload the course to update the UI
+                    // Recargar el curso
                     cargarCurso(cursoId);
                     
-                    // Hide the modal
+                    // Cerrar el modal
                     ScriptManager.RegisterStartupScript(this, GetType(), "HideDeleteModal", 
                         "$('#modalDeleteChapter').modal('hide');", true);
                 }

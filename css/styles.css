@@ -781,6 +781,21 @@ footer {
     height: auto;
 }
 
+.divRightCursoIn {
+    position: relative;
+    padding: 24px;
+}
+
+/* Línea de separación vertical entre columnas */
+.divRightCursoIn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: 95%;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.2); /* Mismo color que espaciadorGeneral */
+}
+
 
 /* Responsive */
 
@@ -904,6 +919,17 @@ footer {
     .imgCursoContainer,
     .imgCursoIn {
         max-height: 400px;
+    }
+
+    .divRightCursoIn::before {
+        display: none;
+    }
+    
+    .divRightCursoIn {
+        position: relative;
+        padding-top: 24px;
+        margin-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
 }
 
