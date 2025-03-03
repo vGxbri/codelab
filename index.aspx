@@ -561,7 +561,20 @@
                                             <h1 class="titCursoIn mb-3"><%# Eval("titulo") %></h1>
                                             <h3 class="instructorCursoIn mb-3">Instructor: <span class="negrita"><%# Eval("instructor") %></span></h3>
                                             <p class="descCursoIn mb-3"><%# Eval("descripcion") %></p>
-                                            <p class="fechaCursoIn"><%# Eval("fecha_creacion") %></p>
+                                            <p class="fechaCursoIn mb-3"><%# Eval("fecha_creacion") %></p>
+                                            <asp:LinkButton ID="btnEliminarCurso" runat="server" 
+                                                            CssClass="btn btn-primary btnMarcarVisto" 
+                                                            Visible='<%# esInstructorDelCurso(Convert.ToInt32(Eval("curso_id"))) %>'
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#modalEliminarCurso">
+                                                <div class="d-flex align-items-center justify-content-center h-100">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                    </svg>
+                                                    <span class="d-none d-sm-inline">Eliminar curso</span>
+                                                </div>
+                                            </asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:Repeater>
                                 </div>
@@ -898,6 +911,22 @@
                                 CssClass="btn btn-danger btn-cerrarSesion" 
                                 Text="Eliminar" 
                                 OnClick="btnConfirmarEliminarCap_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar Curso -->
+    <div class="modal fade" id="modalEliminarCurso" tabindex="-1" aria-labelledby="modalEliminarCursoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mc-cerrarsesion">
+                <div class="modal-body">¿Estás seguro de que quieres eliminar este curso? Esta acción eliminará todos los capítulos, inscripciones y no se puede deshacer.</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnConfirmarEliminarCurso" runat="server" 
+                                CssClass="btn btn-danger" 
+                                Text="Eliminar Curso" 
+                                OnClick="btnConfirmarEliminarCurso_Click" />
                 </div>
             </div>
         </div>

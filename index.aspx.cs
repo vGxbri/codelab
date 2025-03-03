@@ -1237,5 +1237,67 @@ namespace PaginaCursos
                 }
             }
         }
+
+        protected void btnConfirmarEliminarCurso_Click(object sender, EventArgs e)
+        {
+            if (Session["Usuario"] == null)
+                return;
+
+            string email = Session["Usuario"].ToString();
+            long cursoId = Convert.ToInt64(hfCursoId.Value);
+
+            // Verificar que el usuario sea el instructor del curso
+            if (!esInstructorDelCurso(Convert.ToInt32(cursoId)))
+                return;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                // Usar una transacción para asegurar que todas las operaciones se completen o ninguna
+                MySqlTransaction transaction = connection.BeginTransaction();
+                
+                try
+                {
+                    // 1. Eliminar los registros de capítulos vistos
+                    string deleteCapVistos = "DELETE FROM capitulos_vistos WHERE curso_id = @cursoId";
+                    MySqlCommand cmdCapVistos = new MySqlCommand(deleteCapVistos, connection, transaction);
+                    cmdCapVistos.Parameters.AddWithValue("@cursoId", cursoId);
+                    cmdCapVistos.ExecuteNonQuery();
+                    
+                    // 2. Eliminar los capítulos
+                    string deleteCapitulos = "DELETE FROM capitulos WHERE curso_id = @cursoId";
+                    MySqlCommand cmdCapitulos = new MySqlCommand(deleteCapitulos, connection, transaction);
+                    cmdCapitulos.Parameters.AddWithValue("@cursoId", cursoId);
+                    cmdCapitulos.ExecuteNonQuery();
+                    
+                    // 3. Eliminar las inscripciones
+                    string deleteInscripciones = "DELETE FROM inscripciones WHERE curso_id = @cursoId";
+                    MySqlCommand cmdInscripciones = new MySqlCommand(deleteInscripciones, connection, transaction);
+                    cmdInscripciones.Parameters.AddWithValue("@cursoId", cursoId);
+                    cmdInscripciones.ExecuteNonQuery();
+                    
+                    // 4. Eliminar el curso
+                    string deleteCurso = "DELETE FROM cursos WHERE id = @cursoId";
+                    MySqlCommand cmdCurso = new MySqlCommand(deleteCurso, connection, transaction);
+                    cmdCurso.Parameters.AddWithValue("@cursoId", cursoId);
+                    cmdCurso.ExecuteNonQuery();
+                    
+                    // Confirmar todas las operaciones
+                    transaction.Commit();
+                    
+                    // Redirigir al catálogo
+                    Response.Redirect("index.aspx?view=catalogo");
+                }
+                catch (Exception ex)
+                {
+                    // Si hay algún error, deshacer todas las operaciones
+                    transaction.Rollback();
+                    
+                    // Mostrar mensaje de error (puedes personalizar esto)
+                    ScriptManager.RegisterStartupScript(this, GetType(), "errorEliminarCurso", 
+                        "alert('Error al eliminar el curso: " + ex.Message.Replace("'", "\\'") + "');", true);
+                }
+            }
+        }
     }
 }
