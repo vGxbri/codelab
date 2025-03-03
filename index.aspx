@@ -17,8 +17,18 @@
             <div class="container-fluid">
                 <asp:ImageButton ID="imgLogo" runat="server" ImageUrl="imgs/logo-full.png" CssClass="imgLogo" OnClick="imgLogo_Click" />
                 
-                <div>
-                    <ul class="navbar-nav" id="navbarNotLogged" style="display: flex;" runat="server">
+                <!-- Add hamburger toggle button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#ffffff" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </span>
+                </button>
+                
+                <!-- Wrap the navigation in a collapsible div -->
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto" id="navbarNotLogged" style="display: flex;" runat="server">
                         <li class="nav-item btn-sesion">
                             <asp:LinkButton ID="LinkButton1" runat="server" CssClass="nav-link" PostBackUrl="~/iniciar.aspx?view=login">Iniciar Sesión</asp:LinkButton>
                         </li>
@@ -27,7 +37,7 @@
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav" id="navbarLogged" style="display: none;" runat="server">
+                    <ul class="navbar-nav ms-auto" id="navbarLogged" style="display: none;" runat="server">
                         <li class="nav-item btn-sesion">
                             <asp:LinkButton ID="btnCatalogo" runat="server" CssClass="nav-link" OnClick="btnCatalogo_Click">Catálogo</asp:LinkButton>
                         </li>
@@ -60,29 +70,29 @@
                     <div class="divSlogan">
                         <h3 class="fraseExotica">Creada por profesionales, para futuros profesionales.</h3>
                     </div>
-                    <div class="divDatos">
-                        <div class="dato1">
+                    <div class="divDatos row">
+                        <div class="dato1 col-12 col-sm-4">
                             <h2 class="titDato">+5,000</h2>
                             <p class="txtDato">usuarios diarios</p>
                         </div>
-                        <div class="dato2">
+                        <div class="dato2 col-12 col-sm-4">
                             <h2 class="titDato">+30</h2>
                             <p class="txtDato">profesores titulados</p>
                         </div>
-                        <div class="dato3">
+                        <div class="dato3 col-12 col-sm-4">
                             <h2 class="titDato">+100</h2>
                             <p class="txtDato">cursos disponibles</p>
                         </div>
                     </div>
                     <br />
                     <div class="divCursosDisponibles">
-                        <h2 class="dato1">Cursos disponibles</h2>
+                        <h2 class="dato1 text-center">Cursos disponibles</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" class="svgFlecha">
                             <a class="flechaCursos" href="#cursosDisponibles3"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 11l8 3l8-3"/></a>
                         </svg>
                     </div>
 
-                    <!-- TARJETAS DE CURSOS (ALGUNAS) -->
+                    <!-- TARJETAS DE CURSOS (6) -->
                     <asp:label ID="labelDebug" CssClass="d-flex justify-content-center mb-4" runat="server" ForeColor="White" />
                     <div class="row row-cols-1 row-cols-md-3 g-4 mb-4" id="cursosDisponibles3">
                         <asp:Repeater ID="rptCursos3" runat="server">
@@ -108,7 +118,7 @@
                 </asp:View>
                 <asp:View ID="pagCatalogo" runat="server">
                     <div class="divCursosDisponibles">
-                        <h2 class="tit1">Cursos disponibles</h2>
+                        <h2 class="tit1 text-center">Cursos disponibles</h2>
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" class="svgFlecha">
                             <a class="flechaCursos" href="#cursosDisponibles"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 11l8 3l8-3"/></a>
                         </svg>
@@ -163,7 +173,7 @@
                         </asp:Panel>
                         <asp:Repeater ID="rptMisCursos" runat="server">
                             <ItemTemplate>
-                                <div class="col-md-4">
+                                <div class="col-md-6 col-lg-4">
                                     <div class="h-100 cardMisCursos">
                                         <div class="d-flex flex-column h-100">
                                             <div class="card-tit-miscursos">
@@ -219,17 +229,17 @@
                 </asp:View>
                 <asp:View ID="pagPlanes" runat="server">
                     <div class="container mt-4">
-                        <h1 class="tit1">Actualizar a Premium</h1>
+                        <h1 class="tit1 text-center">Actualizar a Premium</h1>
                         <h4 class="text-center descPlanes">Aquí tienes una muestra de los planes que tenemos disponibles actualmente.</h4>
 
-                        <div class="row justify-content-evenly">
-                            <div class="planes col-5" id="plan1">
+                        <div class="row justify-content-center gy-4 mt-4 mt-md-0">
+                            <div class="planes col-12 col-lg-5 mx-3" id="plan1">
                                 <div class="divTitPlanes">
                                     <h4 class="titPlanes">Plan Básico</h4>
                                 </div>
                                 <hr>
                                 <div class="divPrecioPlanes">
-                                    <h2 class="precioPlanes">0,00€ <a style="font-size: 0.7em;"> / mes</a></h2>
+                                    <h2 class="precioPlanes">0,00€ <span style="font-size: 0.7em;"> / mes</span></h2>
                                 </div>
                                 <div class="divVentajasPlanes">
                                     <ul class="ulVentajasPlanes">
@@ -280,24 +290,24 @@
                                             <li class="ventajasPlanes">Modo sin conexión.</li>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31L61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128L50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
                                             <li class="ventajasPlanes">Acceso anticipado a nuevos contenidos.</li>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31L61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128L50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
                                             <li class="ventajasPlanes">Garantía de devolución de 7 días.</li>
                                         </div>
                                     </ul>
                                     <asp:Button ID="btnPlanGratuito" runat="server" CssClass="btn btn-outline-primary-mejorar" Text="Plan actual" Enabled="false" OnClick="btnPlanGratuito_Click"/>
                                 </div>
                             </div>
-                            <div class="planes col-5" id="plan2">
+                            <div class="planes col-12 col-lg-5 mx-3" id="plan2">
                                 <div class="divTitPlanes">
                                     <h4 class="titPlanes">Plan Premium</h4>
                                 </div>
                                 <hr>
                                 <div class="divPrecioPlanes">
-                                    <h2 class="precioPlanes">9,99€ <a style="font-size: 0.7em;"> / mes</a></h2>
+                                    <h2 class="precioPlanes">9,99€ <span style="font-size: 0.7em;"> / mes</span></h2>
                                 </div>
                                 <div class="divVentajasPlanes">
                                     <ul class="ulVentajasPlanes">
@@ -377,7 +387,7 @@
 
                 <asp:View ID="pagPerfil" runat="server">
                     <div class="container mt-4">
-                        <h1 class="tit1">Datos Personales</h1>
+                        <h1 class="tit1 text-center">Datos Personales</h1>
                         
                         <div class="row mt-5">
                             <!-- Columna Izquierda -->
@@ -509,75 +519,79 @@
 
                 <asp:View ID="pagCursoIn" runat="server">
                     <asp:Label ID="labelDebugCursosIn" CssClass="d-flex justify-content-center mb-4" runat="server" ForeColor="White" />
-                    <div class="divCursoIn d-flex">
-                        <div class="divLeftCursoIn">
-                            <asp:Repeater ID="rptCurso" runat="server">
-                                <ItemTemplate>
-                                    <div class="imgCursoContainer">
-                                        <asp:Image ID="imgCursoIn" runat="server" CssClass="imgCursoIn" ImageUrl='<%# Eval("img") %>' alt="Curso" />
-                                        <button type="button" class="btnPlay" onclick="playVideo()">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16">
-                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.271 5.055a.5.5 0 0 0-.771.422v5.046a.5.5 0 0 0 .771.422l4.5-2.523a.5.5 0 0 0 0-.844l-4.5-2.523z"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="d-flex justify-content-between beforeTit">
-                                        <h2 class="capCursoIn"><asp:Label ID="lblCapCursoIn" runat="server" Text='<%# Eval("numero_capitulo") + ".<span> " + Eval("capitulo") + "</span>" %>' /></h2>
-                                        <asp:LinkButton ID="btnMarcarVisto" OnClick="btnMarcarVisto_Click" CssClass="btn btn-primary btnMarcarVisto d-flex align-items-center" runat="server">
-                                            <asp:HiddenField ID="hfCapituloId" runat="server" Value='<%# Eval("capitulo_id") %>' />
-                                            <asp:HiddenField ID="hfCursoId" runat="server" Value='<%# Eval("curso_id") %>' />
-                                            <div class="d-flex align-items-center">
-                                                <svg runat="server" id="svgOjoAbierto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="me-2" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>
-                                                <svg runat="server" id="svgOjoCerrado" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="me-2" viewBox="0 0 16 16" style="display: none;"><path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486z"/><path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/><path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708"/></svg>
-                                                <asp:label ID="lblMarcarVisto" runat="server" Text="Marcar como visto" />
+                    <div class="container-fluid px-4">
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-lg-8 mb-4 mb-lg-0">
+                                <div class="divLeftCursoIn">
+                                    <asp:Repeater ID="rptCurso" runat="server">
+                                        <ItemTemplate>
+                                            <div class="imgCursoContainer mb-4">
+                                                <asp:Image ID="imgCursoIn" runat="server" CssClass="imgCursoIn img-fluid w-100" ImageUrl='<%# Eval("img") %>' alt="Curso" />
+                                                <button type="button" class="btnPlay" onclick="playVideo()">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16">
+                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.271 5.055a.5.5 0 0 0-.771.422v5.046a.5.5 0 0 0 .771.422l4.5-2.523a.5.5 0 0 0 0-.844l-4.5-2.523z"/>
+                                                    </svg>
+                                                </button>
                                             </div>
-                                        </asp:LinkButton>
+                                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+                                                <h2 class="capCursoIn mb-0"><asp:Label ID="lblCapCursoIn" runat="server" Text='<%# Eval("numero_capitulo") + ".<span> " + Eval("capitulo") + "</span>" %>' /></h2>
+                                                <asp:LinkButton ID="btnMarcarVisto" OnClick="btnMarcarVisto_Click" CssClass="btn btn-primary btnMarcarVisto d-flex align-items-center" runat="server">
+                                                    <asp:HiddenField ID="hfCapituloId" runat="server" Value='<%# Eval("capitulo_id") %>' />
+                                                    <asp:HiddenField ID="hfCursoId" runat="server" Value='<%# Eval("curso_id") %>' />
+                                                    <div class="d-flex align-items-center">
+                                                        <svg runat="server" id="svgOjoAbierto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="me-2" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>
+                                                        <svg runat="server" id="svgOjoCerrado" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="me-2" viewBox="0 0 16 16" style="display: none;"><path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486z"/><path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/><path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708"/></svg>
+                                                        <asp:label ID="lblMarcarVisto" runat="server" Text="Marcar como visto" />
+                                                    </div>
+                                                </asp:LinkButton>
+                                            </div>
+                                            <div class="espaciadorGeneral mb-4"></div>
+                                            <h1 class="titCursoIn mb-3"><%# Eval("titulo") %></h1>
+                                            <h3 class="instructorCursoIn mb-3">Instructor: <span class="negrita"><%# Eval("instructor") %></span></h3>
+                                            <p class="descCursoIn mb-3"><%# Eval("descripcion") %></p>
+                                            <p class="fechaCursoIn"><%# Eval("fecha_creacion") %></p>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="divRightCursoIn">
+                                    <asp:HiddenField ID="hfCursoId" runat="server" />
+                                    <div class="list-group mb-4">
+                                        <asp:Repeater ID="rptCapitulos" runat="server" OnItemCommand="rptCapitulos_ItemCommand">
+                                            <ItemTemplate>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <asp:LinkButton ID="btnCapitulos" CssClass="capitulos d-flex align-items-center flex-grow-1 p-3" runat="server" CommandName="SelectCapitulo" CommandArgument='<%# Eval("numero_capitulo") + "|" + Eval("titulo") %>' Font-Underline="false">
+                                                        <asp:HiddenField ID="hfCapituloId" runat="server" Value='<%# Eval("id") %>' />
+                                                        <h2 class="numCapitulo mb-0 me-3"><%# Eval("numero_capitulo") %></h2>
+                                                        <h3 class="nomCapitulo mb-0"><%# Eval("titulo") %></h3>
+                                                    </asp:LinkButton>
+                                                    <asp:LinkButton ID="btnDeleteChapter" runat="server" 
+                                                                    CssClass="btn btn-primary btnMarcarVisto btnDeleteChapter ms-2" 
+                                                                    CommandName="ShowDeleteModal" 
+                                                                    CommandArgument='<%# Eval("id") %>'
+                                                                    Visible='<%# IsCourseInstructor(Convert.ToInt32(Eval("curso_id"))) %>'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                        </svg>
+                                                    </asp:LinkButton>
+                                                </div>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
                                     </div>
-                                    <div class="espaciadorGeneral"></div>
-                                    <h1 class="titCursoIn"><%# Eval("titulo") %></h1>
-                                    <h3 class="instructorCursoIn">Instructor: <span class="negrita"><%# Eval("instructor") %></span></h3>
-                                    <p class="descCursoIn"><%# Eval("descripcion") %></p>
-                                    <p class="fechaCursoIn"><%# Eval("fecha_creacion") %></p>
-                                </ItemTemplate>
-                            </asp:Repeater>
+                                    <asp:Panel ID="pnlAddChapter" CssClass="pnlAddChapter" runat="server">
+                                        <asp:Button ID="btnAddChapterCourse" runat="server" 
+                                                    CssClass="btn btn-primary btnMarcarVisto w-100"
+                                                    Text="Añadir Capítulo"
+                                                    OnClientClick="return false;"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#modalAddChapter" />
+                                    </asp:Panel>
+                                </div>
+                            </div>
                         </div>
-                        <div class="divMidCursoIn">
-                            <hr>
-                        </div>
-                        <div class="divRightCursoIn">
-                            <asp:HiddenField ID="hfCursoId" runat="server" />
-                            <asp:Repeater ID="rptCapitulos" runat="server" OnItemCommand="rptCapitulos_ItemCommand">
-                                <ItemTemplate>
-                                    <div class="d-flex align-items-center">
-                                        <asp:LinkButton ID="btnCapitulos" CssClass="capitulos d-flex flex-grow-1" runat="server" CommandName="SelectCapitulo" CommandArgument='<%# Eval("numero_capitulo") + "|" + Eval("titulo") %>' Font-Underline="false">
-                                            <asp:HiddenField ID="hfCapituloId" runat="server" Value='<%# Eval("id") %>' />
-                                            <h2 class="numCapitulo"><%# Eval("numero_capitulo") %></h2>
-                                            <div class="espaciadorCaps"></div>
-                                            <h3 class="nomCapitulo"><%# Eval("titulo") %></h3>
-                                        </asp:LinkButton>
-                                        <asp:LinkButton ID="btnDeleteChapter" runat="server" 
-                                                    CssClass="btn btn-primary btnContinuar btnEliminarCap" 
-                                                    CommandName="ShowDeleteModal" 
-                                                    CommandArgument='<%# Eval("id") %>'
-                                                    Visible='<%# IsCourseInstructor(Convert.ToInt32(Eval("curso_id"))) %>'>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                        </svg>
-                                    </asp:LinkButton>
-                                    </div>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                            <asp:Panel ID="pnlAddChapter" runat="server">
-                                <div class="espaciadorGeneral mb-4"></div>
-                                <asp:Button ID="btnAddChapterCourse" runat="server" 
-                                            CssClass="btn btn-primary btnMejorar"
-                                            Text="Añadir Capítulo"
-                                            OnClientClick="return false;"
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#modalAddChapter" />
-                            </asp:Panel>
-                        </div>
-                    </div>
+                    </div>  
                 </asp:View>
             </asp:MultiView>
         </div>
@@ -762,9 +776,9 @@
                     </div>
                     
                     <div class="row mb-4">
-                        <div class="col-6">
+                        <div class="col-md-6 mb-4 mb-md-0">
                             <div class="form-floating">
-                                <asp:TextBox ID="txtFechaExp" runat="server" CssClass="form-control inputDark" placeholder="MM/YY" MaxLength="5" />
+                                <asp:TextBox ID="txtFechaExp" runat="server" CssClass="form-control inputDark" placeholder="MM/YY" MaxLength="5" Style="height: 58px;" />
                                 <label for="txtFechaExp" class="text-muted">Fecha Exp. (MM/YY)</label>
                                 <asp:RequiredFieldValidator ID="rfvFechaExp" runat="server" 
                                     ControlToValidate="txtFechaExp"
@@ -781,7 +795,7 @@
                                     ValidationGroup="Tarjeta" />
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <div class="form-floating">
                                 <asp:TextBox ID="txtCVV" runat="server" CssClass="form-control inputDark" placeholder="CVV" MaxLength="3" />
                                 <label for="txtCVV" class="text-muted">CVV</label>
@@ -801,7 +815,7 @@
                             </div>
                         </div>
                     </div>
-    
+                
                     <div class="form-floating mb-4">
                         <asp:TextBox ID="txtNombreTarjeta" runat="server" CssClass="form-control inputDark" placeholder="Nombre en la tarjeta" />
                         <label for="txtNombreTarjeta" class="text-muted">Nombre en la tarjeta</label>

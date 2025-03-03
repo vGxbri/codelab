@@ -121,13 +121,16 @@ footer {
 
 .divDatos {
     margin-top: 60px;
-    height: 15vw;
+    min-height: 200px;
+    height: auto;
     background-color: rgba(158, 0, 0, 0.479);
     width: 100%;
     border-radius: 24px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    padding: 20px 10px;
 }
 
 .dato1, .dato2, .dato3 {
@@ -375,15 +378,15 @@ footer {
 }
 
 .divCursoIn {
-    width: 100%;
+    padding: 20px;
 }
 
 .divLeftCursoIn {
-    width: 70%;
+    width: 100%;
 }
 
 .divMidCursoIn {
-    margin: 0 40px 0 40px;
+    margin: 0 20px;
     width: 1px;
     background-color: rgba(255, 255, 255, 0.2);
 }
@@ -413,11 +416,9 @@ footer {
 }
 
 .capitulos {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    border-radius: 16px;
-
-    margin-bottom: 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .espaciadorCaps {
@@ -454,15 +455,17 @@ footer {
 
 .imgCursoContainer {
     position: relative;
-    display: inline-block;
-    background-color: #202020;
-    border-radius: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+    max-height: 500px;
 }
 
 .imgCursoIn {
     display: block;
     width: 100%;
     border-radius: 24px;
+    object-fit: cover;
+    max-height: 500px;
 
     opacity: 0.3;
 }
@@ -475,16 +478,11 @@ footer {
     background: none;
     border: none;
     cursor: pointer;
-    color: white;
-    font-size: 2em;
-    opacity: 0.8;
-
-    transition: 400ms;
+    transition: transform 0.3s ease;
 }
 
 .btnPlay:hover {
-    opacity: 1;
-    transition: 400ms;
+    transform: translate(-50%, -50%) scale(1.1);
 }
 
 .negrita {
@@ -752,5 +750,314 @@ footer {
 }
 
 .btnEliminarCap {
-    margin: 0 0 20px 10px !important;
+    margin: 0 0 0 10px !important;
+    background-color: #39080D !important;
+    border: none;
+}
+
+.btnEliminarCap:hover {
+    border: none;
+    background-color: #6D000D !important;
+    box-shadow: 0px 0px 20px 1px #ffbb763f;
+}
+
+.pnlAddChapter {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2) ;
+}
+
+/* Responsive Navigation Styles */
+.navbar-toggler {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+}
+
+.btnDeleteChapter {
+    padding: 6px !important;
+    height: auto;
+}
+
+
+/* Responsive */
+
+@media (max-width: 991px) {
+    .navbarBefore {
+        padding: 20px 30px;
+    }
+
+    .navbar-collapse {
+        background-color: rgba(0, 0, 0, 0.425);
+        backdrop-filter: blur(12px) saturate(157%);
+        -webkit-backdrop-filter: blur(12px) saturate(157%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .nav-item {
+        margin: 12px 0;
+    }
+
+    .nav-link {
+        padding: 10px 20px;
+        text-align: center;
+        margin: 0;
+    }
+
+    .unirme {
+        margin-top: 0;
+        background-color: rgba(179, 0, 21, 0.5);
+    }
+
+    .navbar-toggler {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px;
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, 0.425);
+        backdrop-filter: blur(12px) saturate(157%);
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-toggler-icon {
+        background-image: none;
+    }
+
+    .divDatos {
+        margin: 30px auto;
+        padding: 30px 15px;
+        text-align: center;
+    }
+    
+    .titDato {
+        font-size: 2.8em;
+        text-align: center;
+        width: 100%;
+    }
+
+    .txtDato {
+        font-size: 1.3em;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .dato1, .dato2, .dato3 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 33.33%;
+    }
+
+    .divCursosDisponibles h2.dato1.text-center {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .planes {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .titPlanes {
+        font-size: 1.6em;
+        text-align: center;
+    }
+    
+    .precioPlanes {
+        font-size: 2.8em;
+        text-align: center;
+    }
+    
+    .ventajasPlanes {
+        font-size: 0.95em;
+    }
+
+    .divCursoIn {
+        padding: 15px;
+    }
+
+    .titCursoIn {
+        font-size: 1.8em;
+    }
+
+    .capCursoIn {
+        font-size: 1.4em;
+    }
+
+    .instructorCursoIn {
+        font-size: 1.2em;
+    }
+
+    .divMidCursoIn {
+        margin: 0 10px;
+    }
+    
+    .imgCursoContainer,
+    .imgCursoIn {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbarBefore {
+        padding: 15px;
+    }
+
+    .imgLogo {
+        max-width: 120px;
+        padding-bottom: 10px;
+    }
+
+    .slogan {
+        font-size: 2.5em;
+        width: 90vw;
+    }
+
+    .fraseExotica {
+        font-size: 1.2em;
+        padding: 6px 12px;
+    }
+
+    .divDatos {
+        margin: 20px auto;
+        padding: 25px 10px;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+    
+    .dato1, .dato2, .dato3 {
+        width: 33.33%;
+        padding: 15px 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .titDato {
+        font-size: 2.4em;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .txtDato {
+        font-size: 1.1em;
+        text-align: center;
+        width: 100%;
+    }
+
+    .descPlanes {
+        font-size: 1.1em;
+        margin-bottom: 2rem !important;
+    }
+    
+    .planes {
+        max-width: 500px;
+        margin: 0 auto 20px auto;
+    }
+    
+    .divVentajasPlanes {
+        padding: 0 10px;
+    }
+    
+    .ulVentajasPlanes {
+        padding-left: 0;
+    }
+    
+    .ventajasPlanes {
+        margin-left: 10px;
+    }
+
+    .imgCursoContainer,
+    .imgCursoIn {
+        max-height: 350px;
+    }
+
+    #lblMarcarVisto {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 575px) {
+    .divDatos {
+        flex-direction: column;
+        height: auto;
+        padding: 20px 10px;
+        margin: 20px auto;
+    }
+    
+    .dato1, .dato2, .dato3 {
+        width: 100%;
+        padding: 15px 0;
+    }
+    
+    .titDato {
+        font-size: 2.2em;
+        margin-bottom: 5px;
+    }
+    
+    .txtDato {
+        font-size: 1em;
+    }
+
+    .tit1 {
+        font-size: 2em;
+    }
+    
+    .descPlanes {
+        font-size: 1em;
+    }
+    
+    .titPlanes {
+        font-size: 1.4em;
+    }
+    
+    .precioPlanes {
+        font-size: 2.4em;
+    }
+    
+    .ventajasPlanes {
+        font-size: 0.9em;
+    }
+    
+    .btn-outline-primary-mejorar,
+    .btnMejorar {
+        padding: 8px 16px;
+        font-size: 0.95em;
+    }
+
+    .divCursoIn {
+        padding: 10px;
+    }
+
+    .titCursoIn {
+        font-size: 1.6em;
+    }
+
+    .capCursoIn {
+        font-size: 1.2em;
+    }
+
+    .btnMarcarVisto {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btnDeleteChapter {
+        width: auto !important;
+    }
+
+    .imgCursoContainer,
+    .imgCursoIn {
+        max-height: 250px;
+    }
 }
