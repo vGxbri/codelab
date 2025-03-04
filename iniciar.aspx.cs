@@ -2,7 +2,7 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-//referencias MySQL
+//Referencias MySQL
 using MySql.Data.MySqlClient;
 
 namespace PaginaCursos

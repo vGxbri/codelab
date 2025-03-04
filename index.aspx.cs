@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
-//referencias MySQL
+//Referencias MySQL
 using MySql.Data;
 using MySql.Data.MySqlClient;
 

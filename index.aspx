@@ -888,7 +888,7 @@
                 </div>
                 <div class="modal-footer border-0">
                     <asp:Button ID="btnGuardarNuevoCap" runat="server" 
-                        Text="Guardar capítulo" 
+                        Text="Añadir capítulo"
                         CssClass="btn btn-primary btnMejorar" 
                         OnClick="btnGuardarNuevoCap_Click"
                         ValidationGroup="AddChapter" />
@@ -908,7 +908,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
                     <asp:Button ID="btnConfirmarEliminarCap" runat="server" 
-                                CssClass="btn btn-danger btn-cerrarSesion" 
+                                CssClass="btn btn-primary btnMejorar" 
                                 Text="Eliminar" 
                                 OnClick="btnConfirmarEliminarCap_Click" />
                 </div>
@@ -924,10 +924,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
                     <asp:Button ID="btnConfirmarEliminarCurso" runat="server" 
-                                CssClass="btn btn-danger" 
+                                CssClass="btn btn-primary btnMejorar" 
                                 Text="Eliminar Curso" 
                                 OnClick="btnConfirmarEliminarCurso_Click" />
-                </div>
+                </div>              
             </div>
         </div>
     </div>
